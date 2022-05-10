@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/server/variables.dart';
 import './pages/Home_page.dart';
@@ -16,14 +15,14 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-// class _MyAppState
 
 class _MyAppState extends State<MyApp> {
   // MQTT Broker
   mqttConnect() async {
-    final client = MqttServerClient('192.168.1.6', 'clientIdentifier1234');
+    final client = MqttServerClient('192.168.0.10', 'MQTTBroker');
     client.port = 1883;
     client.keepAlivePeriod = 60;
+    client.connect();
     client.onAutoReconnect = () => true;
     client.autoReconnect = true;
     try {
