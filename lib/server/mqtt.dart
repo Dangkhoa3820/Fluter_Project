@@ -4,7 +4,7 @@ import 'package:mqtt_client/mqtt_server_client.dart';
 
 Future<Stream<List<MqttReceivedMessage<MqttMessage>>>?> mqttSubscribe(
     {required String topic}) async {
-  final client = MqttServerClient('192.168.0.10', 'MQTTConnect');
+  final client = MqttServerClient('192.168.1.5', 'MQTTConnect');
   client.port = 1883;
   client.connect();
   client.keepAlivePeriod = 60;
