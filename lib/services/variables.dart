@@ -3,4 +3,7 @@ String SoluongSp2 = '0';
 String SoluongSp3 = '0';
 bool Auto = false;
 bool Man = false;
-
+bool Pos1 = false;
+bool Pos2 = false;
+bool Pos3 = false;
+bool Run = false;

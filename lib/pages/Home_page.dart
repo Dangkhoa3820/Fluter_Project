@@ -1,8 +1,9 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:flutter_application/server/mqtt.dart';
+import 'package:flutter_application/services/mqtt.dart';
+import 'package:flutter_application/services/thaotac.dart';
 import '../NavBar.dart';
-import '../server/variables.dart';
+import '../services/variables.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool pressAttention = false;
-  var items = [ 'Blue', 'Red', 'Yellow'];
+  var items = ['Blue', 'Red', 'Yellow'];
   String dropdownvalue1 = 'Blue';
   String dropdownvalue2 = 'Red';
   String dropdownvalue3 = 'Yellow';
@@ -71,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    children:[
+                    children: [
                       Container(
                         margin: EdgeInsets.only(bottom: 10),
                         padding: EdgeInsets.all(0),
@@ -80,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             children: [
                               Column(
                                 children: [
-                                  Text('Motor'),
+                                  Text('Run'),
                                   Container(
                                     padding: EdgeInsets.only(right: 4),
                                     child: Icon(
@@ -97,7 +98,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                               Column(
                                 children: [
-                                  Text('Alarm      ',),
+                                  Text(
+                                    'Alarm      ',
+                                  ),
                                   Container(
                                     padding: EdgeInsets.only(right: 25),
                                     child: Icon(
@@ -118,10 +121,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                   Container(
                                     padding: EdgeInsets.only(right: 4),
                                     child: Icon(
-                                      Man
+                                      Pos1
                                           ? Icons.circle_rounded
                                           : Icons.circle_outlined,
-                                      color: Man
+                                      color: Pos1
                                           ? Color.fromARGB(255, 16, 190, 39)
                                           : Colors.grey,
                                       size: 44,
@@ -135,27 +138,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                   Container(
                                     padding: EdgeInsets.only(right: 4),
                                     child: Icon(
-                                      Man
+                                      Pos2
                                           ? Icons.circle_rounded
                                           : Icons.circle_outlined,
-                                      color: Man
-                                          ? Color.fromARGB(255, 16, 190, 39)
-                                          : Colors.grey,
-                                      size: 44,
-                                    ),
-                                  )
-                                ],
-                              ),
-                               Column(
-                                children: [
-                                  Text('Pos 3       '),
-                                  Container(
-                                    padding: EdgeInsets.only(right: 30),
-                                    child: Icon(
-                                      Man
-                                          ? Icons.circle_rounded
-                                          : Icons.circle_outlined,
-                                      color: Man
+                                      color: Pos2
                                           ? Color.fromARGB(255, 16, 190, 39)
                                           : Colors.grey,
                                       size: 44,
@@ -165,164 +151,206 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                               Column(
                                 children: [
-                                  RichText(text: new TextSpan(
-                                      children: [
-                                         WidgetSpan(child: Icon(Icons.camera, size: 15, color: Color.fromARGB(255, 185, 197, 20),), 
-                                        ),
-                                        TextSpan(
-                                          text: 'Camera: '
-                                        ),
-                                      ],
-                                     ),
+                                  Text('Pos 3       '),
+                                  Container(
+                                    padding: EdgeInsets.only(right: 30),
+                                    child: Icon(
+                                      Pos3
+                                          ? Icons.circle_rounded
+                                          : Icons.circle_outlined,
+                                      color: Pos3
+                                          ? Color.fromARGB(255, 16, 190, 39)
+                                          : Colors.grey,
+                                      size: 44,
                                     ),
+                                  )
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  RichText(
+                                    text: new TextSpan(
+                                      children: [
+                                        WidgetSpan(
+                                          child: Icon(
+                                            Icons.camera,
+                                            size: 15,
+                                            color: Color.fromARGB(
+                                                255, 185, 197, 20),
+                                          ),
+                                        ),
+                                        TextSpan(text: 'Camera: '),
+                                      ],
+                                    ),
+                                  ),
                                   Container(
                                     child: Center(
-                                      child: Text('null', style: TextStyle(color: Colors.black),),
+                                      child: Text(
+                                        'null',
+                                        style: TextStyle(color: Colors.black),
+                                      ),
                                     ),
                                     width: 70,
                                     height: 35,
                                     margin: EdgeInsets.only(top: 4),
                                     decoration: BoxDecoration(
-                                      color: Color.fromARGB(255, 84, 92, 92).withOpacity(0.3),
+                                      color: Color.fromARGB(255, 84, 92, 92)
+                                          .withOpacity(0.3),
                                       shape: BoxShape.rectangle,
                                     ),
                                   )
                                 ],
                               )
-                            ]
-                          ),
+                            ]),
                       ),
-                    new Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                         Container(
-                           margin: EdgeInsets.only(right: 18),
-                           child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  RichText(
-                                    text: new TextSpan(
-                                      children: [
-                                         WidgetSpan(child: Icon(Icons.note_alt_outlined, size: 18, color: Color.fromARGB(255, 7, 148, 136),), 
-                                        ),
-                                        TextSpan(
-                                          text: 'Color Pos 1: '
-                                        ),
-                                      ],
-                                     ),
-                                    ),
-                                    Container(
-                                        child: DropdownButton(
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            color: (dropdownvalue1=='Blue')?Colors.blue
-                                                 :(dropdownvalue1 == 'Red')? Colors.red
-                                                 :(dropdownvalue1 == 'Yellow')? Colors.yellow: Colors.grey
-                                                 ),
-                                          value: dropdownvalue1,
-                                          icon: Icon(Icons.keyboard_arrow_down),
-                                          items: items.map((String items) {
-                                            return DropdownMenuItem(
-                                                value: items, child: Text(items));
-                                          }).toList(),
-                                          onChanged: (String? NewValue) {
-                                            setState(() {
-                                              dropdownvalue1 = NewValue!;
-                                            });
-                                          },
+                      new Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(right: 18),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                RichText(
+                                  text: new TextSpan(
+                                    children: [
+                                      WidgetSpan(
+                                        child: Icon(
+                                          Icons.note_alt_outlined,
+                                          size: 18,
+                                          color:
+                                              Color.fromARGB(255, 7, 148, 136),
                                         ),
                                       ),
-                                    ],                                
-                              ),
+                                      TextSpan(text: 'Color Pos 1: '),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  child: DropdownButton(
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        color: (dropdownvalue1 == 'Blue')
+                                            ? Colors.blue
+                                            : (dropdownvalue1 == 'Red')
+                                                ? Colors.red
+                                                : (dropdownvalue1 == 'Yellow')
+                                                    ? Colors.yellow
+                                                    : Colors.grey),
+                                    value: dropdownvalue1,
+                                    icon: Icon(Icons.keyboard_arrow_down),
+                                    items: items.map((String items) {
+                                      return DropdownMenuItem(
+                                          value: items, child: Text(items));
+                                    }).toList(),
+                                    onChanged: (String? NewValue) {
+                                      setState(() {
+                                        dropdownvalue1 = NewValue!;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
-                           Container(
-                             margin: EdgeInsets.only(right: 18),
-                             child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                 RichText(
-                                    text: new TextSpan(
-                                      children: [
-                                         WidgetSpan(child: Icon(Icons.note_alt_outlined, size: 18,color: Color.fromARGB(255, 7, 148, 136)), 
-                                        ),
-                                        TextSpan(
-                                          text: 'Color Pos 2: '
-                                        ),
-                                      ],
-                                     ),
-                                    ),
-                                  Container(
-                                    margin: EdgeInsets.all(0),
-                                    padding: EdgeInsets.all(0),                                                            
-                                    child: DropdownButton(
-                                      style: TextStyle(
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(right: 18),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                RichText(
+                                  text: new TextSpan(
+                                    children: [
+                                      WidgetSpan(
+                                        child: Icon(Icons.note_alt_outlined,
+                                            size: 18,
+                                            color: Color.fromARGB(
+                                                255, 7, 148, 136)),
+                                      ),
+                                      TextSpan(text: 'Color Pos 2: '),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.all(0),
+                                  padding: EdgeInsets.all(0),
+                                  child: DropdownButton(
+                                    style: TextStyle(
                                         fontSize: 13,
-                                        color: (dropdownvalue2=='Blue')?Colors.blue
-                                                 :(dropdownvalue2 == 'Red')? Colors.red
-                                                 :(dropdownvalue2 == 'Yellow')? Colors.yellow: Colors.grey
-                                                 ),
-                                      value: dropdownvalue2,
-                                      icon: Icon(Icons.keyboard_arrow_down),
-                                      items: items.map((String items) {
-                                        return DropdownMenuItem(
-                                            value: items, child: Text(items));
-                                      }).toList(),
-                                      onChanged: (String? NewValue) {
-                                        setState(() {
-                                          dropdownvalue2 = NewValue!;
-                                        });
-                                      },
-                                    ),
+                                        color: (dropdownvalue2 == 'Blue')
+                                            ? Colors.blue
+                                            : (dropdownvalue2 == 'Red')
+                                                ? Colors.red
+                                                : (dropdownvalue2 == 'Yellow')
+                                                    ? Colors.yellow
+                                                    : Colors.grey),
+                                    value: dropdownvalue2,
+                                    icon: Icon(Icons.keyboard_arrow_down),
+                                    items: items.map((String items) {
+                                      return DropdownMenuItem(
+                                          value: items, child: Text(items));
+                                    }).toList(),
+                                    onChanged: (String? NewValue) {
+                                      setState(() {
+                                        dropdownvalue2 = NewValue!;
+                                      });
+                                    },
                                   ),
-                                ],
-                              ),
-                           ),
-                           Container(
-                             margin: EdgeInsets.only(right: 2),
-                             child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  RichText(
-                                    text: new TextSpan(
-                                      children: [
-                                         WidgetSpan(child: Icon(Icons.note_alt_outlined, size: 18,color: Color.fromARGB(255, 7, 148, 136)), 
-                                        ),
-                                        TextSpan(
-                                          text: 'Color Pos 3: '
-                                        ),
-                                      ],
-                                     ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(right: 2),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                RichText(
+                                  text: new TextSpan(
+                                    children: [
+                                      WidgetSpan(
+                                        child: Icon(Icons.note_alt_outlined,
+                                            size: 18,
+                                            color: Color.fromARGB(
+                                                255, 7, 148, 136)),
+                                      ),
+                                      TextSpan(text: 'Color Pos 3: '),
+                                    ],
                                   ),
-                                  Container(
-                                    margin: EdgeInsets.all(0),
-                                    padding: EdgeInsets.all(0),
-                                    child: DropdownButton(                             
-                                      style: TextStyle(
+                                ),
+                                Container(
+                                  margin: EdgeInsets.all(0),
+                                  padding: EdgeInsets.all(0),
+                                  child: DropdownButton(
+                                    style: TextStyle(
                                         fontSize: 13,
-                                        color: (dropdownvalue3=='Blue')?Colors.blue
-                                                 :(dropdownvalue3 == 'Red')? Colors.red
-                                                 :(dropdownvalue3 == 'Yellow')? Colors.yellow: Colors.grey
-                                                 ),
-                                      value: dropdownvalue3,
-                                      icon: Icon(Icons.keyboard_arrow_down),
-                                      items: items.map((String items) {
-                                        return DropdownMenuItem(
-                                            value: items, child: Text(items));
-                                      }).toList(),
-                                      onChanged: (String? NewValue) {
-                                        setState(() {
-                                          dropdownvalue3 = NewValue!;
-                                        });
-                                      },
-                                    ),
+                                        color: (dropdownvalue3 == 'Blue')
+                                            ? Colors.blue
+                                            : (dropdownvalue3 == 'Red')
+                                                ? Colors.red
+                                                : (dropdownvalue3 == 'Yellow')
+                                                    ? Colors.yellow
+                                                    : Colors.grey),
+                                    value: dropdownvalue3,
+                                    icon: Icon(Icons.keyboard_arrow_down),
+                                    items: items.map((String items) {
+                                      return DropdownMenuItem(
+                                          value: items, child: Text(items));
+                                    }).toList(),
+                                    onChanged: (String? NewValue) {
+                                      setState(() {
+                                        dropdownvalue3 = NewValue!;
+                                      });
+                                    },
                                   ),
-                                ],
-                              ),
-                           ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
                     ],
-                  )
-                    ],
-                  ), 
+                  ),
                 ],
               ),
             ),
@@ -397,6 +425,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                   onPressed: () {
                                     mqttSubscribe(topic: 'start');
+                                    thaotacFunction(context, 0);
                                   },
                                   style: ElevatedButton.styleFrom(
                                     shape: CircleBorder(
