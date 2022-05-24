@@ -7,7 +7,7 @@ class mongoDB {
   static var db, userCollection;
   static connect() async {
     db = await Db.create(
-        "mongodb+srv://user_1:LAc71dSllDAah0wa@cluster0.yhkkk.mongodb.net/PHANLOAISANPHAM?retryWrites=true&w=majority");
+        "mongodb+srv://user_1:7jYGyh3kzVDbO3Ia@cluster0.yhkkk.mongodb.net/PHANLOAISANPHAM?retryWrites=true&w=majority");
     await db.open();
     inspect(db);
     userCollection = db.collection("Thaotacnguoidung");

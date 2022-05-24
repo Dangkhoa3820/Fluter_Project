@@ -13,10 +13,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool pressAttention = false;
-  var items = ['Blue', 'Red', 'Yellow'];
-  String dropdownvalue1 = 'Blue';
-  String dropdownvalue2 = 'Red';
-  String dropdownvalue3 = 'Yellow';
+  var items = ['Blue', 'Red', 'Yellow', 'Black', 'Pink', 'Purple'];
+  bool colorIsCheck = false;
+  bool qrIsCheck = false;
+  TextEditingController _product1 = TextEditingController();
+  TextEditingController _product2 = TextEditingController();
+  TextEditingController _product3 = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -25,7 +28,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    //mqttConnect();
+    Color getColor(Set<MaterialState> states) {
+      const Set<MaterialState> interactiveStates = <MaterialState>{
+        MaterialState.pressed,
+        MaterialState.hovered,
+        MaterialState.focused,
+      };
+      if (states.any(interactiveStates.contains)) {
+        return Colors.red;
+      }
+      return Colors.blue;
+    }
+
     return Scaffold(
       drawer: NavBar(),
       appBar: AppBar(
@@ -222,7 +236,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                               Color.fromARGB(255, 7, 148, 136),
                                         ),
                                       ),
-                                      TextSpan(text: 'Color Pos 1: '),
+                                      TextSpan(
+                                          text: 'Color Pos 1: ',
+                                          style: TextStyle(
+                                            color: (colorIsCheck)
+                                                ? null
+                                                : Colors.grey.withOpacity(0.5),
+                                          )),
                                     ],
                                   ),
                                 ),
@@ -236,7 +256,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 ? Colors.red
                                                 : (dropdownvalue1 == 'Yellow')
                                                     ? Colors.yellow
-                                                    : Colors.grey),
+                                                    : (dropdownvalue1 ==
+                                                            'Black')
+                                                        ? Colors.black
+                                                        : (dropdownvalue1 ==
+                                                                'Pink')
+                                                            ? Colors.pink
+                                                            : (dropdownvalue1 ==
+                                                                    'Purple')
+                                                                ? Colors.purple
+                                                                : Colors.grey),
                                     value: dropdownvalue1,
                                     icon: Icon(Icons.keyboard_arrow_down),
                                     items: items.map((String items) {
@@ -245,7 +274,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                     }).toList(),
                                     onChanged: (String? NewValue) {
                                       setState(() {
-                                        dropdownvalue1 = NewValue!;
+                                        if (colorIsCheck) {
+                                          setState(() {
+                                            dropdownvalue1 = NewValue!;
+                                          });
+                                          print('color1: ${dropdownvalue1}');
+                                          mqttSubscribe(topic: 'Color1');
+                                        }
                                       });
                                     },
                                   ),
@@ -267,7 +302,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                             color: Color.fromARGB(
                                                 255, 7, 148, 136)),
                                       ),
-                                      TextSpan(text: 'Color Pos 2: '),
+                                      TextSpan(
+                                          text: 'Color Pos 2: ',
+                                          style: TextStyle(
+                                            color: (colorIsCheck)
+                                                ? null
+                                                : Colors.grey.withOpacity(0.5),
+                                          )),
                                     ],
                                   ),
                                 ),
@@ -283,7 +324,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 ? Colors.red
                                                 : (dropdownvalue2 == 'Yellow')
                                                     ? Colors.yellow
-                                                    : Colors.grey),
+                                                    : (dropdownvalue2 ==
+                                                            'Black')
+                                                        ? Colors.black
+                                                        : (dropdownvalue2 ==
+                                                                'Pink')
+                                                            ? Colors.pink
+                                                            : (dropdownvalue2 ==
+                                                                    'Purple')
+                                                                ? Colors.purple
+                                                                : Colors.grey),
                                     value: dropdownvalue2,
                                     icon: Icon(Icons.keyboard_arrow_down),
                                     items: items.map((String items) {
@@ -292,7 +342,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                     }).toList(),
                                     onChanged: (String? NewValue) {
                                       setState(() {
-                                        dropdownvalue2 = NewValue!;
+                                        if (colorIsCheck) {
+                                          setState(() {
+                                            dropdownvalue2 = NewValue!;
+                                          });
+                                          mqttSubscribe(topic: 'Color2');
+                                        }
                                       });
                                     },
                                   ),
@@ -314,7 +369,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                             color: Color.fromARGB(
                                                 255, 7, 148, 136)),
                                       ),
-                                      TextSpan(text: 'Color Pos 3: '),
+                                      TextSpan(
+                                          text: 'Color Pos 3: ',
+                                          style: TextStyle(
+                                            color: (colorIsCheck)
+                                                ? null
+                                                : Colors.grey.withOpacity(0.5),
+                                          )),
                                     ],
                                   ),
                                 ),
@@ -330,7 +391,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 ? Colors.red
                                                 : (dropdownvalue3 == 'Yellow')
                                                     ? Colors.yellow
-                                                    : Colors.grey),
+                                                    : (dropdownvalue3 ==
+                                                            'Black')
+                                                        ? Colors.black
+                                                        : (dropdownvalue3 ==
+                                                                'Pink')
+                                                            ? Colors.pink
+                                                            : (dropdownvalue3 ==
+                                                                    'Purple')
+                                                                ? Colors.purple
+                                                                : Colors.grey),
                                     value: dropdownvalue3,
                                     icon: Icon(Icons.keyboard_arrow_down),
                                     items: items.map((String items) {
@@ -338,9 +408,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                           value: items, child: Text(items));
                                     }).toList(),
                                     onChanged: (String? NewValue) {
-                                      setState(() {
-                                        dropdownvalue3 = NewValue!;
-                                      });
+                                      if (colorIsCheck) {
+                                        setState(() {
+                                          dropdownvalue3 = NewValue!;
+                                        });
+                                        mqttSubscribe(topic: 'Color3');
+                                      }
                                     },
                                   ),
                                 ),
@@ -447,6 +520,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                   onPressed: () {
                                     mqttSubscribe(topic: 'stop');
+                                    thaotacFunction(context, 1);
                                   },
                                   style: ElevatedButton.styleFrom(
                                     shape: CircleBorder(
@@ -475,6 +549,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                   onPressed: () {
                                     mqttSubscribe(topic: 'reset');
+                                    thaotacFunction(context, 2);
                                   },
                                   style: ElevatedButton.styleFrom(
                                     shape: CircleBorder(
@@ -516,12 +591,88 @@ class _MyHomePageState extends State<MyHomePage> {
                                       });
                                       if (pressAttention) {
                                         mqttSubscribe(topic: 'emer_on');
+                                        thaotacFunction(context, 3);
                                       } else {
                                         mqttSubscribe(topic: 'emer_off');
+                                        thaotacFunction(context, 4);
                                       }
                                     }),
                               ]),
                         ),
+                        Container(
+                          margin: const EdgeInsets.only(left: 20.0),
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text('Color:'),
+                                        Checkbox(
+                                            checkColor: Colors.white,
+                                            fillColor: MaterialStateProperty
+                                                .resolveWith(getColor),
+                                            value: colorIsCheck,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                colorIsCheck = value!;
+                                                qrIsCheck = !value;
+                                              });
+                                            }),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text('QR:'),
+                                        Checkbox(
+                                            checkColor: Colors.white,
+                                            fillColor: MaterialStateProperty
+                                                .resolveWith(getColor),
+                                            value: qrIsCheck,
+                                            onChanged: (bool? value) {
+                                              setState(() {
+                                                qrIsCheck = value!;
+                                                colorIsCheck = !value;
+                                              });
+                                            }),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ]),
+                        ),
+                        Container(
+                            width: 130,
+                            height: 35,
+                            child: ElevatedButton(
+                              child: Text(
+                                'Setting Product',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  side: BorderSide(
+                                    color: Color.fromARGB(255, 11, 247, 137)
+                                        .withOpacity(0.7),
+                                    width: 2,
+                                    style: BorderStyle.solid,
+                                  ),
+                                ),
+                                primary: Color.fromARGB(255, 66, 66, 66),
+                                onPrimary: Color.fromARGB(255, 0, 132, 240),
+                              ),
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        _buildPopupDialog(context));
+                              },
+                            )),
                       ],
                     ),
                   ),
@@ -1024,6 +1175,99 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ]),
+    );
+  }
+
+  Widget _buildPopupDialog(BuildContext context) {
+    return new AlertDialog(
+      title: Center(
+        child: const Text(
+          'Set Quantity Of Product',
+          style: TextStyle(color: Color.fromARGB(255, 10, 202, 192)),
+        ),
+      ),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: TextField(
+              controller: _product1,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Product 1: ',
+                hintText: 'Enter number of product 1',
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: TextField(
+              controller: _product2,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Product 2: ',
+                hintText: 'Enter number of product 2',
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: TextField(
+              controller: _product3,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Product 3: ',
+                hintText: 'Enter number of product 3',
+              ),
+            ),
+          ),
+        ],
+      ),
+      actions: <Widget>[
+        new ElevatedButton(
+          onPressed: () {
+            if ((_product1.text != '') &&
+                (_product2.text != '') &&
+                (_product3.text != '')) {
+              setState(() {
+                SetSp1 = _product1.text;
+                SetSp2 = _product2.text;
+                SetSp3 = _product3.text;
+              });
+              Navigator.of(context).pop();
+              print('product 1: ${SetSp1}');
+              print('product 2: ${SetSp2}');
+              print('product 3: ${SetSp3}');
+            } else {
+              showDialog<void>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Error!',style: TextStyle(color: Colors.red),),
+                      content: Text('Please enter number of product!'),
+                      actions: [
+                       ElevatedButton(
+                      onPressed: (){
+                      Navigator.of(context).pop(); 
+                      }, 
+                    child: Text('Ok'),
+                  )
+                ],
+               );
+              });
+            }
+          },
+          child: Text(
+            'Save',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

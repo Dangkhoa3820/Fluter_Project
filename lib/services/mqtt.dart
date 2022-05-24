@@ -25,6 +25,7 @@ Future<Stream<List<MqttReceivedMessage<MqttMessage>>>?> mqttSubscribe(
     client.subscribe('emer_on', MqttQos.atMostOnce);
     client.subscribe('emer_off', MqttQos.atMostOnce);
     client.subscribe('controlplc', MqttQos.atMostOnce);
+    client.subscribe('dulieumain', MqttQos.atMostOnce);
 
     if (topic == 'start') {
       final builder1 = MqttClientPayloadBuilder();
@@ -112,12 +113,83 @@ Future<Stream<List<MqttReceivedMessage<MqttMessage>>>?> mqttSubscribe(
       client.publishMessage(
           'controlplc', MqttQos.atLeastOnce, builder17.payload!);
     }
-    client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
-      final recMess = c![0].payload as MqttPublishMessage;
-      final payload =
-          MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
-      log(payload + ' --> topic: ${c[0].topic}');
-    });
+    else if (topic == 'Color1') {
+      final builder18 = MqttClientPayloadBuilder();
+      if(dropdownvalue1 == 'Red'){
+        builder18.addString('table11');
+      }
+      else if (dropdownvalue1 == 'Yellow'){
+        builder18.addString('table12');
+      }
+      else if (dropdownvalue1 == 'Blue'){
+        builder18.addString('table13');
+      }
+      else if (dropdownvalue1 == 'Purple'){
+        builder18.addString('table14');
+      }
+      else if (dropdownvalue1 == 'Black'){
+        builder18.addString('table7');
+      }
+      else if (dropdownvalue1 == 'Pink'){
+        builder18.addString('table16');
+      }
+      client.publishMessage(
+          'dulieumain', MqttQos.atLeastOnce, builder18.payload!);
+    }
+    else if (topic == 'Color2') {
+      final builder19 = MqttClientPayloadBuilder();
+      if(dropdownvalue2 == 'Red'){
+        builder19.addString('table21');
+      }
+      else if (dropdownvalue2 == 'Yellow'){
+        builder19.addString('table22');
+      }
+      else if (dropdownvalue2 == 'Blue'){
+        builder19.addString('table23');
+      }
+      else if (dropdownvalue2 == 'Purple'){
+        builder19.addString('table14');
+      }
+      else if (dropdownvalue2 == 'Black'){
+        builder19.addString('table27');
+      }
+      else if (dropdownvalue2 == 'Pink'){
+        builder19.addString('table26');
+      }
+      client.publishMessage(
+          'dulieumain', MqttQos.atLeastOnce, builder19.payload!);
+    }
+    else if (topic == 'Color3') {
+      final builder20 = MqttClientPayloadBuilder();
+      if(dropdownvalue3 == 'Red'){
+        builder20.addString('table31');
+      }
+      else if (dropdownvalue3 == 'Yellow'){
+        builder20.addString('table32');
+      }
+      else if (dropdownvalue3 == 'Blue'){
+        builder20.addString('table33');
+      }
+      else if (dropdownvalue3 == 'Purple'){
+        builder20.addString('table34');
+      }
+      else if (dropdownvalue3 == 'Black'){
+        builder20.addString('table37');
+      }
+      else if (dropdownvalue3 == 'Pink'){
+        builder20.addString('table36');
+      }
+      client.publishMessage(
+          'dulieumain', MqttQos.atLeastOnce, builder20.payload!);
+    }
+
+    //
+    // client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
+    //   final recMess = c![0].payload as MqttPublishMessage;
+    //   final payload =
+    //       MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
+    //   log(payload + ' --> topic: ${c[0].topic}');
+    // });
   } else {
     return null;
   }

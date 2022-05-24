@@ -43,6 +43,7 @@ class _MyAppState extends State<MyApp> {
     client.subscribe('Sp3', MqttQos.atMostOnce);
 
     client.subscribe('Run', MqttQos.atMostOnce);
+     //client.subscribe('dulieumain', MqttQos.atMostOnce);
 
     client.updates!.listen((dynamic message) {
       final MqttPublishMessage recMess = message[0].payload;

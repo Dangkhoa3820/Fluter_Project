@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/NavBar.dart';
+import 'package:flutter_application/pages/History_page.dart';
 import 'package:flutter_application/pages/TotalProduct.dart';
 import 'package:flutter_application/services/MongoDB.dart';
 import 'package:flutter_application/services/models/quantity.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
-class History extends StatelessWidget {
+class TotalProductView extends StatelessWidget {
   String _id = 'null';
   String _Time = 'null';
   String _Controller = 'null';
@@ -41,7 +42,7 @@ class History extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text: 'Total product view',
+                      text: 'Control view',
                       style: TextStyle(
                         color: Colors.blue,
                         fontSize: 15.0,
@@ -55,7 +56,7 @@ class History extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => TotalProductView()),
+                  MaterialPageRoute(builder: (context) => History()),
                 );
               },
             ),
@@ -71,7 +72,7 @@ class History extends StatelessWidget {
               children: <Widget>[
                 Center(
                   child: Text(
-                    'Control View',
+                    'Total Product View',
                     style: TextStyle(
                         fontSize: 20.0,
                         color: Color.fromARGB(255, 197, 153, 9),
