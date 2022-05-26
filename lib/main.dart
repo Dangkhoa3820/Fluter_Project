@@ -7,7 +7,7 @@ import './pages/Home_page.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await mongoDB.connect();
   runApp(MyApp());
@@ -43,7 +43,22 @@ class _MyAppState extends State<MyApp> {
     client.subscribe('Sp3', MqttQos.atMostOnce);
 
     client.subscribe('Run', MqttQos.atMostOnce);
-     //client.subscribe('dulieumain', MqttQos.atMostOnce);
+    client.subscribe('dulieumain', MqttQos.atMostOnce);
+
+    client.subscribe('color_Sp1', MqttQos.atMostOnce);
+    client.subscribe('color_Sp2', MqttQos.atMostOnce);
+    client.subscribe('color_Sp3', MqttQos.atMostOnce);
+
+    client.subscribe('SettingSLSP1_Web', MqttQos.atMostOnce);
+    client.subscribe('SettingSLSP2_Web', MqttQos.atMostOnce);
+    client.subscribe('SettingSLSP3_Web', MqttQos.atMostOnce);
+
+    client.subscribe('Alarm-sp1day', MqttQos.atMostOnce);
+    client.subscribe('Alarm-sp2day', MqttQos.atMostOnce);
+    client.subscribe('Alarm-sp3day', MqttQos.atMostOnce);
+    client.subscribe('Alarm_kosp', MqttQos.atMostOnce);
+    client.subscribe('Alarm_khongnhandienmau', MqttQos.atMostOnce);
+    client.subscribe('Alarm_NotReady', MqttQos.atMostOnce);
 
     client.updates!.listen((dynamic message) {
       final MqttPublishMessage recMess = message[0].payload;
@@ -55,33 +70,138 @@ class _MyAppState extends State<MyApp> {
         setState(() {
           SoluongSp1 = payload;
           Pos1 = false;
+          camera = 'null';
         });
       } else if (message[0].topic == 'SoluongSP2') {
         setState(() {
           SoluongSp2 = payload;
           Pos2 = false;
+          camera = 'null';
         });
       } else if (message[0].topic == 'SoluongSP3') {
         setState(() {
           SoluongSp3 = payload;
           Pos3 = false;
+          camera = 'null';
         });
       } else if ((message[0].topic == 'Sp1') && (Run)) {
         setState(() {
           Pos1 = true;
+          camera = dropdownvalue1;
         });
       } else if ((message[0].topic == 'Sp2') && (Run)) {
         setState(() {
           Pos2 = true;
+          camera = dropdownvalue2;
         });
       } else if ((message[0].topic == 'Sp3') && (Run)) {
         setState(() {
           Pos3 = true;
+          camera = dropdownvalue3;
         });
       } else if (message[0].topic == 'Run') {
         setState(() {
           Pos1 = Pos2 = Pos3 = false;
-          Run = true;
+          if (payload == 'true') {
+            Run = true;
+          } else {
+            Run = false;
+          }
+        });
+      } else if (message[0].topic == 'color_Sp1') {
+        if (payload == '1') {
+          setState(() {
+            dropdownvalue1 = 'Red';
+          });
+        } else if (payload == '2') {
+          setState(() {
+            dropdownvalue1 = 'Yellow';
+          });
+        } else if (payload == '3') {
+          setState(() {
+            dropdownvalue1 = 'Blue';
+          });
+        }
+      } else if (message[0].topic == 'color_Sp2') {
+        if (payload == '1') {
+          setState(() {
+            dropdownvalue2 = 'Red';
+          });
+        } else if (payload == '2') {
+          setState(() {
+            dropdownvalue2 = 'Yellow';
+          });
+        } else if (payload == '3') {
+          setState(() {
+            dropdownvalue2 = 'Blue';
+          });
+        }
+      } else if (message[0].topic == 'color_Sp3') {
+        if (payload == '1') {
+          setState(() {
+            dropdownvalue3 = 'Red';
+          });
+        } else if (payload == '2') {
+          setState(() {
+            dropdownvalue3 = 'Yellow';
+          });
+        } else if (payload == '3') {
+          setState(() {
+            dropdownvalue3 = 'Blue';
+          });
+        }
+      } else if (message[0].topic == 'SettingSLSP1_Web') {
+        setState(() {
+          SetSp1 = payload;
+        });
+      } else if (message[0].topic == 'SettingSLSP2_Web') {
+        setState(() {
+          SetSp2 = payload;
+        });
+      } else if (message[0].topic == 'SettingSLSP3_Web') {
+        setState(() {
+          SetSp3 = payload;
+        });
+      } else if (message[0].topic == 'dulieumain') {
+        if (payload == 'Colorcheck') {
+          setState(() {
+            colorIsCheck = true;
+            qrIsCheck = false;
+          });
+        } else if (payload == 'QRcheck') {
+          setState(() {
+            colorIsCheck = false;
+            qrIsCheck = true;
+          });
+        }
+      } else if (message[0].topic == 'Alarm-sp1day') {
+        setState(() {
+          alarm = true;
+        });
+      }
+      else if (message[0].topic == 'Alarm-sp2day') {
+        setState(() {
+          alarm = true;
+        });
+      }
+      else if (message[0].topic == 'Alarm-sp3day') {
+        setState(() {
+          alarm = true;
+        });
+      }
+      else if ((message[0].topic == 'Alarm_kosp')&&(Run)) {
+        setState(() {
+          alarm = true;
+        });
+      }
+      else if (message[0].topic == 'Alarm_khongnhandienmau') {
+        setState(() {
+          alarm = true;
+        });
+      }
+      else if (message[0].topic == 'Alarm_NotReady') {
+        setState(() {
+          alarm = true;
         });
       }
     });

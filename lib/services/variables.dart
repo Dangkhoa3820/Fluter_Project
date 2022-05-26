@@ -13,3 +13,9 @@ String dropdownvalue3 = 'Yellow';
 String SetSp1 = '0';
 String SetSp2 = '0';
 String SetSp3 = '0';
+String camera = 'null';
+bool checkAccount = false;
+bool colorIsCheck = false;
+bool qrIsCheck = false;
+bool alarm = false;
+

@@ -96,7 +96,7 @@ class NavBar extends StatelessWidget {
       case 2:
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => Alarms(),
-        ));
+        ));       
         break;
       case 3:
         Navigator.of(context).push(MaterialPageRoute(

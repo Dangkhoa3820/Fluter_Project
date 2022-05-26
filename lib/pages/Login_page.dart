@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/pages/Home_page.dart';
+import 'package:flutter_application/services/MongoDB.dart';
+import 'package:flutter_application/services/variables.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -10,6 +11,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  get mongoDB => null;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,8 +92,9 @@ class _LoginPageState extends State<LoginPage> {
                     style: TextStyle(fontSize: 15),
                   ),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MyHomePage()));
+                    // Navigator.push(context,
+                    //     MaterialPageRoute(builder: (context) => MyHomePage()));
+                    
                   },
                 ),
               ),

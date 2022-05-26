@@ -3,7 +3,7 @@ import 'package:flutter_application/services/variables.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
-Future<Stream<List<MqttReceivedMessage<MqttMessage>>>?> mqttSubscribe(
+Future<List<MqttReceivedMessage<MqttMessage>>?> mqttSubscribe(
     {required String topic}) async {
   final client = MqttServerClient('broker.hivemq.com', 'MQTTBroker');
   client.port = 1883;
@@ -26,6 +26,9 @@ Future<Stream<List<MqttReceivedMessage<MqttMessage>>>?> mqttSubscribe(
     client.subscribe('emer_off', MqttQos.atMostOnce);
     client.subscribe('controlplc', MqttQos.atMostOnce);
     client.subscribe('dulieumain', MqttQos.atMostOnce);
+    client.subscribe('SettingSLSP1_App', MqttQos.atMostOnce);
+    client.subscribe('SettingSLSP2_App', MqttQos.atMostOnce);
+    client.subscribe('SettingSLSP3_App', MqttQos.atMostOnce);
 
     if (topic == 'start') {
       final builder1 = MqttClientPayloadBuilder();
@@ -183,7 +186,32 @@ Future<Stream<List<MqttReceivedMessage<MqttMessage>>>?> mqttSubscribe(
           'dulieumain', MqttQos.atLeastOnce, builder20.payload!);
     }
 
-    //
+    else if (topic == 'Mode_Color') {
+      final builder21 = MqttClientPayloadBuilder();
+      builder21.addString('Colorcheck');
+      client.publishMessage(
+          'dulieumain', MqttQos.atLeastOnce, builder21.payload!);
+    }  
+   else if (topic == 'Mode_QR') {
+      final builder22 = MqttClientPayloadBuilder();
+      builder22.addString('QRcheck');
+      client.publishMessage(
+          'dulieumain', MqttQos.atLeastOnce, builder22.payload!);
+    }
+   else if (topic == 'QuantityProduct') {
+      final builder23 = MqttClientPayloadBuilder();
+      final builder24 = MqttClientPayloadBuilder();
+      final builder25 = MqttClientPayloadBuilder();
+      builder23.addString('${SetSp1}');
+      builder24.addString('${SetSp2}');
+      builder25.addString('${SetSp3}');
+      client.publishMessage(
+          'SettingSLSP1_App', MqttQos.atLeastOnce, builder23.payload!);
+      client.publishMessage(
+          'SettingSLSP2_App', MqttQos.atLeastOnce, builder24.payload!);
+      client.publishMessage(
+          'SettingSLSP3_App', MqttQos.atLeastOnce, builder25.payload!);
+    } 
     // client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
     //   final recMess = c![0].payload as MqttPublishMessage;
     //   final payload =

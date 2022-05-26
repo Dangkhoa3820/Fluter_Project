@@ -14,8 +14,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool pressAttention = false;
   var items = ['Blue', 'Red', 'Yellow', 'Black', 'Pink', 'Purple'];
-  bool colorIsCheck = false;
-  bool qrIsCheck = false;
   TextEditingController _product1 = TextEditingController();
   TextEditingController _product2 = TextEditingController();
   TextEditingController _product3 = TextEditingController();
@@ -99,10 +97,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                   Container(
                                     padding: EdgeInsets.only(right: 4),
                                     child: Icon(
-                                      Auto
+                                      Run
                                           ? Icons.circle_rounded
                                           : Icons.circle_outlined,
-                                      color: Auto
+                                      color: Run
                                           ? Color.fromARGB(255, 226, 137, 4)
                                           : Colors.grey,
                                       size: 44,
@@ -118,10 +116,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                   Container(
                                     padding: EdgeInsets.only(right: 25),
                                     child: Icon(
-                                      Man
+                                      alarm
                                           ? Icons.circle_rounded
                                           : Icons.circle_outlined,
-                                      color: Man
+                                      color: alarm
                                           ? Color.fromARGB(255, 16, 190, 39)
                                           : Colors.grey,
                                       size: 44,
@@ -200,8 +198,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                   Container(
                                     child: Center(
                                       child: Text(
-                                        'null',
-                                        style: TextStyle(color: Colors.black),
+                                        '${camera}',
+                                        style: TextStyle(
+                                            color: (camera == 'Red')
+                                                ? Colors.red
+                                                : (camera == 'Blue')
+                                                    ? Colors.blue
+                                                    : (camera == 'Yellow')
+                                                        ? Colors.yellow
+                                                        : Colors.grey),
                                       ),
                                     ),
                                     width: 70,
@@ -498,7 +503,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                   onPressed: () {
                                     mqttSubscribe(topic: 'start');
-                                    thaotacFunction(context, 0);
+                                    //thaotacFunction(context, 0);
+                                    print("start");
                                   },
                                   style: ElevatedButton.styleFrom(
                                     shape: CircleBorder(
@@ -520,7 +526,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                   onPressed: () {
                                     mqttSubscribe(topic: 'stop');
-                                    thaotacFunction(context, 1);
+                                    setState(() {
+                                      alarm = false;
+                                    });
+                                    //thaotacFunction(context, 1);
                                   },
                                   style: ElevatedButton.styleFrom(
                                     shape: CircleBorder(
@@ -549,7 +558,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                   onPressed: () {
                                     mqttSubscribe(topic: 'reset');
-                                    thaotacFunction(context, 2);
+                                    //thaotacFunction(context, 2);
                                   },
                                   style: ElevatedButton.styleFrom(
                                     shape: CircleBorder(
@@ -591,10 +600,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                       });
                                       if (pressAttention) {
                                         mqttSubscribe(topic: 'emer_on');
-                                        thaotacFunction(context, 3);
+                                        //thaotacFunction(context, 3);
                                       } else {
                                         mqttSubscribe(topic: 'emer_off');
-                                        thaotacFunction(context, 4);
+                                        //thaotacFunction(context, 4);
                                       }
                                     }),
                               ]),
@@ -620,6 +629,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 colorIsCheck = value!;
                                                 qrIsCheck = !value;
                                               });
+                                              mqttSubscribe(
+                                                  topic: 'Mode_Color');
                                             }),
                                       ],
                                     ),
@@ -638,6 +649,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 qrIsCheck = value!;
                                                 colorIsCheck = !value;
                                               });
+                                              mqttSubscribe(topic: 'Mode_QR');
                                             }),
                                       ],
                                     ),
@@ -1196,7 +1208,8 @@ class _MyHomePageState extends State<MyHomePage> {
               controller: _product1,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Product 1: ',
+                counterText: 'Current Value: ${SetSp1}',
+                label: Text('Product 1'),
                 hintText: 'Enter number of product 1',
               ),
             ),
@@ -1207,7 +1220,8 @@ class _MyHomePageState extends State<MyHomePage> {
               controller: _product2,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Product 2: ',
+                counterText: 'Current Value: ${SetSp2}',
+                label: Text('Product 2'),
                 hintText: 'Enter number of product 2',
               ),
             ),
@@ -1218,7 +1232,8 @@ class _MyHomePageState extends State<MyHomePage> {
               controller: _product3,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Product 3: ',
+                counterText: 'Current Value: ${SetSp3}',
+                label: Text('Product 3'),
                 hintText: 'Enter number of product 3',
               ),
             ),
@@ -1236,27 +1251,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 SetSp2 = _product2.text;
                 SetSp3 = _product3.text;
               });
+              mqttSubscribe(topic: 'QuantityProduct');
               Navigator.of(context).pop();
-              print('product 1: ${SetSp1}');
-              print('product 2: ${SetSp2}');
-              print('product 3: ${SetSp3}');
             } else {
               showDialog<void>(
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: Text('Error!',style: TextStyle(color: Colors.red),),
+                      title: Text(
+                        'Error!',
+                        style: TextStyle(color: Colors.red),
+                      ),
                       content: Text('Please enter number of product!'),
                       actions: [
-                       ElevatedButton(
-                      onPressed: (){
-                      Navigator.of(context).pop(); 
-                      }, 
-                    child: Text('Ok'),
-                  )
-                ],
-               );
-              });
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('Ok'),
+                        )
+                      ],
+                    );
+                  });
             }
           },
           child: Text(
@@ -1267,6 +1283,13 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ),
+        new ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Cancel'),
+            style: ElevatedButton.styleFrom(
+                primary: Color.fromARGB(255, 124, 122, 122))),
       ],
     );
   }
