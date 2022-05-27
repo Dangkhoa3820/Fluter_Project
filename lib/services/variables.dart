@@ -18,4 +18,6 @@ bool checkAccount = false;
 bool colorIsCheck = false;
 bool qrIsCheck = false;
 bool alarm = false;
-
+String name = 'null';
+String detail = 'null';
+var totalAlarm = '0';

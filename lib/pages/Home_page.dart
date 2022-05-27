@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/pages/Alarms_page.dart';
 import 'package:flutter_application/services/mqtt.dart';
 import 'package:flutter_application/services/thaotac.dart';
 import '../NavBar.dart';
@@ -37,7 +38,6 @@ class _MyHomePageState extends State<MyHomePage> {
       }
       return Colors.blue;
     }
-
     return Scaffold(
       drawer: NavBar(),
       appBar: AppBar(
@@ -46,8 +46,17 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Color(0xFF212332),
         actions: [
           IconButton(
-            icon: Icon(Icons.notifications_none),
-            onPressed: () {},
+            icon: Icon(Icons.notifications_none, 
+                  color:(alarm)?Colors.orange:Colors.grey),
+            onPressed: () {
+              setState(() {
+                alarm = false;
+              });
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Alarms()),
+                );
+            },
           ),
           IconButton(
             icon: Icon(Icons.person),
@@ -163,9 +172,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                               Column(
                                 children: [
-                                  Text('Pos 3       '),
+                                  Text('  Pos 3    '),
                                   Container(
-                                    padding: EdgeInsets.only(right: 30),
+                                    padding: EdgeInsets.only(right: 6),
                                     child: Icon(
                                       Pos3
                                           ? Icons.circle_rounded
@@ -191,7 +200,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 255, 185, 197, 20),
                                           ),
                                         ),
-                                        TextSpan(text: 'Camera: '),
+                                        TextSpan(text: 'CAM:'),
                                       ],
                                     ),
                                   ),
@@ -209,9 +218,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                                         : Colors.grey),
                                       ),
                                     ),
-                                    width: 70,
+                                    width: 50,
                                     height: 35,
-                                    margin: EdgeInsets.only(top: 4),
+                                    margin: EdgeInsets.only(right: 1),
                                     decoration: BoxDecoration(
                                       color: Color.fromARGB(255, 84, 92, 92)
                                           .withOpacity(0.3),
@@ -226,7 +235,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Container(
-                            margin: EdgeInsets.only(right: 18),
+                            margin: EdgeInsets.only(right: 10),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -294,7 +303,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(right: 18),
+                            margin: EdgeInsets.only(right: 10),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
@@ -440,7 +449,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Row(
             children: [
               Expanded(
-                flex: 1,
+                flex: 6,
                 child: Container(
                   height: 400,
                   width: 400,
@@ -455,7 +464,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Container(
                     height: 300,
                     width: 400,
-                    margin: EdgeInsets.all(8),
+                    margin: EdgeInsets.all(4),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
@@ -526,9 +535,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                   onPressed: () {
                                     mqttSubscribe(topic: 'stop');
-                                    setState(() {
-                                      alarm = false;
-                                    });
                                     //thaotacFunction(context, 1);
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -609,53 +615,51 @@ class _MyHomePageState extends State<MyHomePage> {
                               ]),
                         ),
                         Container(
+                          width: 130,
+                          height: 35,
                           margin: const EdgeInsets.only(left: 20.0),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text('Color:'),
-                                        Checkbox(
-                                            checkColor: Colors.white,
-                                            fillColor: MaterialStateProperty
-                                                .resolveWith(getColor),
-                                            value: colorIsCheck,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                colorIsCheck = value!;
-                                                qrIsCheck = !value;
-                                              });
-                                              mqttSubscribe(
-                                                  topic: 'Mode_Color');
-                                            }),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text('QR:'),
-                                        Checkbox(
-                                            checkColor: Colors.white,
-                                            fillColor: MaterialStateProperty
-                                                .resolveWith(getColor),
-                                            value: qrIsCheck,
-                                            onChanged: (bool? value) {
-                                              setState(() {
-                                                qrIsCheck = value!;
-                                                colorIsCheck = !value;
-                                              });
-                                              mqttSubscribe(topic: 'Mode_QR');
-                                            }),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ]),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text('Color:'),
+                              Checkbox(
+                                  checkColor: Colors.white,
+                                  fillColor: MaterialStateProperty
+                                      .resolveWith(getColor),
+                                  value: colorIsCheck,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      colorIsCheck = value!;
+                                      qrIsCheck = !value;
+                                    });
+                                    mqttSubscribe(
+                                        topic: 'Mode_Color');
+                                  }),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: 130,
+                          height: 35,
+                          margin: const EdgeInsets.only(left: 20.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text('QR:    '),
+                              Checkbox(
+                                  checkColor: Colors.white,
+                                  fillColor: MaterialStateProperty
+                                      .resolveWith(getColor),
+                                  value: qrIsCheck,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      qrIsCheck = value!;
+                                      colorIsCheck = !value;
+                                    });
+                                    mqttSubscribe(topic: 'Mode_QR');
+                                  }),
+                            ],
+                          ),
                         ),
                         Container(
                             width: 130,
@@ -691,7 +695,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               Expanded(
-                flex: 1,
+                flex: 7,
                 child: Container(
                   height: 400,
                   width: 400,
@@ -706,7 +710,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Container(
                     height: 400,
                     width: 400,
-                    margin: EdgeInsets.all(8),
+                    margin: EdgeInsets.all(4),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(

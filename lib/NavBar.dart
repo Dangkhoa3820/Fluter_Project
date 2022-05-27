@@ -5,6 +5,7 @@ import 'package:flutter_application/pages/Alarms_page.dart';
 import 'package:flutter_application/pages/History_page.dart';
 import 'package:flutter_application/pages/Home_page.dart';
 import 'package:flutter_application/pages/Settings_page.dart';
+import 'package:flutter_application/services/variables.dart';
 
 class NavBar extends StatelessWidget {
   @override
@@ -49,22 +50,6 @@ class NavBar extends StatelessWidget {
           leading: Icon(Icons.notification_add),
           title: Text('Alarms'),
           onTap: () => selectedItem(context, 2),
-          trailing: ClipOval(
-            child: Container(
-              color: Colors.red,
-              width: 20,
-              height: 20,
-              child: Center(
-                child: Text(
-                  '8',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                  ),
-                ),
-              ),
-            ),
-          ),
         ),
         ListTile(
           leading: Icon(Icons.settings),

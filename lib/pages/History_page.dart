@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/NavBar.dart';
 import 'package:flutter_application/pages/TotalProduct.dart';
 import 'package:flutter_application/services/MongoDB.dart';
-import 'package:flutter_application/services/models/quantity.dart';
+import 'package:flutter_application/services/models/Thaotacnguoidung.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 class History extends StatelessWidget {
@@ -106,7 +106,7 @@ class History extends StatelessWidget {
             flex: 9,
             child: SafeArea(
               child: FutureBuilder(
-                  future: mongoDB.getData(),
+                  future: mongoDB.getData_thaotac(),
                   builder: (context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
@@ -120,7 +120,7 @@ class History extends StatelessWidget {
                           itemCount: snapshot.data.length,
                           itemBuilder: (context, index) {
                             return displayCard(
-                                MongoDbModel.fromJson(snapshot.data[index]));
+                                MongoDbModel_thaotac.fromJson(snapshot.data[index]));
                           },
                         );
                       } else {
@@ -136,7 +136,7 @@ class History extends StatelessWidget {
       ),
     );
   }
-    Widget displayCard(MongoDbModel data) {
+    Widget displayCard(MongoDbModel_thaotac data) {
       return Table(
         defaultColumnWidth: FixedColumnWidth(120.0),
         border: TableBorder(

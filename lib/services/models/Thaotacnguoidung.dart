@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:flutter_application/services/MongoDB.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
-MongoDbModel mongoDBModelFromJson(String str) =>
-    MongoDbModel.fromJson(json.decode(str));
+MongoDbModel_thaotac mongoDBModelFromJson(String str) =>
+    MongoDbModel_thaotac.fromJson(json.decode(str));
 
-String mongoModelToJson(MongoDbModel data) => json.encode(data.toJson());
+String mongoModelToJson(MongoDbModel_thaotac data) => json.encode(data.toJson());
 
-class MongoDbModel {
-  MongoDbModel({
+class MongoDbModel_thaotac {
+  MongoDbModel_thaotac({
     required this.id,
     required this.Time,
     required this.thaotac,
@@ -19,7 +19,7 @@ class MongoDbModel {
   String Time;
   String thaotac;
 
-  factory MongoDbModel.fromJson(Map<String, dynamic> json) => MongoDbModel(
+  factory MongoDbModel_thaotac.fromJson(Map<String, dynamic> json) => MongoDbModel_thaotac(
       id: json["_id"], 
       Time: json["Time"], 
       thaotac: json["thaotac"]

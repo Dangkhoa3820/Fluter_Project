@@ -3,13 +3,11 @@ import 'package:flutter_application/NavBar.dart';
 import 'package:flutter_application/pages/History_page.dart';
 import 'package:flutter_application/pages/TotalProduct.dart';
 import 'package:flutter_application/services/MongoDB.dart';
-import 'package:flutter_application/services/models/quantity.dart';
+import 'package:flutter_application/services/models/Thaotacnguoidung.dart';
+import 'package:flutter_application/services/models/Tongsanpham.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 class TotalProductView extends StatelessWidget {
-  String _id = 'null';
-  String _Time = 'null';
-  String _Controller = 'null';
   var scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
@@ -84,17 +82,22 @@ class TotalProductView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text(
-                      'ID',
-                      style: TextStyle(
-                          fontSize: 18.0, color: Colors.grey.withOpacity(0.8)),
-                    ),
-                    Text(
                       'Time',
                       style: TextStyle(
                           fontSize: 18.0, color: Colors.grey.withOpacity(0.8)),
                     ),
                     Text(
-                      'Controller',
+                      'Sp1',
+                      style: TextStyle(
+                          fontSize: 18.0, color: Colors.grey.withOpacity(0.8)),
+                    ),
+                    Text(
+                      'Sp2',
+                      style: TextStyle(
+                          fontSize: 18.0, color: Colors.grey.withOpacity(0.8)),
+                    ),
+                    Text(
+                      'Sp3',
                       style: TextStyle(
                           fontSize: 18.0, color: Colors.grey.withOpacity(0.8)),
                     ),
@@ -107,7 +110,7 @@ class TotalProductView extends StatelessWidget {
             flex: 9,
             child: SafeArea(
               child: FutureBuilder(
-                  future: mongoDB.getData(),
+                  future: mongoDB.getData_quantity(),
                   builder: (context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
@@ -121,7 +124,7 @@ class TotalProductView extends StatelessWidget {
                           itemCount: snapshot.data.length,
                           itemBuilder: (context, index) {
                             return displayCard(
-                                MongoDbModel.fromJson(snapshot.data[index]));
+                                MongoDbModel_quantity.fromJson(snapshot.data[index]));
                           },
                         );
                       } else {
@@ -137,9 +140,9 @@ class TotalProductView extends StatelessWidget {
       ),
     );
   }
-    Widget displayCard(MongoDbModel data) {
+    Widget displayCard(MongoDbModel_quantity data) {
       return Table(
-        defaultColumnWidth: FixedColumnWidth(120.0),
+        defaultColumnWidth: FixedColumnWidth(90.0),
         border: TableBorder(
           bottom: BorderSide(
               width: 1.0,
@@ -155,18 +158,7 @@ class TotalProductView extends StatelessWidget {
             Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    '${data.id}',
-                    style: TextStyle(fontSize: 15.0),
-                  ),
-                )
-              ],
-            ),
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
                     '${data.Time}',
                     style: TextStyle(fontSize: 15.0),
@@ -179,7 +171,29 @@ class TotalProductView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    '${data.thaotac}',
+                    '${data.Sp1}',
+                    style: TextStyle(fontSize: 15.0),
+                  ),
+                )
+              ],
+            ),
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    '${data.Sp2}',
+                    style: TextStyle(fontSize: 15.0),
+                  ),
+                )
+              ],
+            ),
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    '${data.Sp3}',
                     style: TextStyle(fontSize: 15.0),
                   ),
                 )

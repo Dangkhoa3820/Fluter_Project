@@ -2,14 +2,15 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/pages/Login_page.dart';
 import 'package:flutter_application/services/MongoDB.dart';
+import 'package:flutter_application/services/thaotac.dart';
 import 'package:flutter_application/services/variables.dart';
 import './pages/Home_page.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await mongoDB.connect();
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await mongoDB.connect();
   runApp(MyApp());
 }
 
@@ -72,18 +73,21 @@ class _MyAppState extends State<MyApp> {
           Pos1 = false;
           camera = 'null';
         });
+        QuantityFunction();
       } else if (message[0].topic == 'SoluongSP2') {
         setState(() {
           SoluongSp2 = payload;
           Pos2 = false;
           camera = 'null';
         });
+        QuantityFunction();
       } else if (message[0].topic == 'SoluongSP3') {
         setState(() {
           SoluongSp3 = payload;
           Pos3 = false;
           camera = 'null';
         });
+        QuantityFunction();
       } else if ((message[0].topic == 'Sp1') && (Run)) {
         setState(() {
           Pos1 = true;
@@ -177,32 +181,45 @@ class _MyAppState extends State<MyApp> {
       } else if (message[0].topic == 'Alarm-sp1day') {
         setState(() {
           alarm = true;
+          name = 'Product 1';
+          detail = 'Full';
         });
-      }
-      else if (message[0].topic == 'Alarm-sp2day') {
+        AlarmFunction();
+      } else if (message[0].topic == 'Alarm-sp2day') {
         setState(() {
           alarm = true;
+          name = 'Product 2';
+          detail = 'Full';
         });
-      }
-      else if (message[0].topic == 'Alarm-sp3day') {
+        AlarmFunction();
+      } else if (message[0].topic == 'Alarm-sp3day') {
         setState(() {
           alarm = true;
+          name = 'Product 3';
+          detail = 'Full';
         });
-      }
-      else if ((message[0].topic == 'Alarm_kosp')&&(Run)) {
+        AlarmFunction();
+      } else if ((message[0].topic == 'Alarm_kosp') && (Run)) {
         setState(() {
           alarm = true;
+          name = 'Conveyor';
+          detail = 'Not Product';
         });
-      }
-      else if (message[0].topic == 'Alarm_khongnhandienmau') {
+        AlarmFunction();
+      } else if (message[0].topic == 'Alarm_khongnhandienmau') {
         setState(() {
           alarm = true;
+          name = 'Color';
+          detail = 'Undefine';
         });
-      }
-      else if (message[0].topic == 'Alarm_NotReady') {
+        AlarmFunction();
+      } else if (message[0].topic == 'Alarm_NotReady') {
         setState(() {
           alarm = true;
+          name = 'Not Ready';
+          detail = 'Please Press Button Reset';
         });
+        AlarmFunction();
       }
     });
   }
