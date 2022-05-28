@@ -58,10 +58,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
             },
           ),
-          IconButton(
-            icon: Icon(Icons.person),
-            onPressed: () {},
-          )
         ],
       ),
       body:
@@ -512,7 +508,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                   onPressed: () {
                                     mqttSubscribe(topic: 'start');
-                                    //thaotacFunction(context, 0);
+                                    thaotacFunction(context, 0);
                                     print("start");
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -535,7 +531,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                   onPressed: () {
                                     mqttSubscribe(topic: 'stop');
-                                    //thaotacFunction(context, 1);
+                                    thaotacFunction(context, 1);
                                   },
                                   style: ElevatedButton.styleFrom(
                                     shape: CircleBorder(
@@ -564,7 +560,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                   onPressed: () {
                                     mqttSubscribe(topic: 'reset');
-                                    //thaotacFunction(context, 2);
+                                    thaotacFunction(context, 2);
                                   },
                                   style: ElevatedButton.styleFrom(
                                     shape: CircleBorder(
@@ -606,10 +602,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                       });
                                       if (pressAttention) {
                                         mqttSubscribe(topic: 'emer_on');
-                                        //thaotacFunction(context, 3);
+                                        thaotacFunction(context, 3);
                                       } else {
                                         mqttSubscribe(topic: 'emer_off');
-                                        //thaotacFunction(context, 4);
+                                        thaotacFunction(context, 4);
                                       }
                                     }),
                               ]),
@@ -1202,47 +1198,62 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextStyle(color: Color.fromARGB(255, 10, 202, 192)),
         ),
       ),
-      content: new Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: TextField(
-              controller: _product1,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                counterText: 'Current Value: ${SetSp1}',
-                label: Text('Product 1'),
-                hintText: 'Enter number of product 1',
+      content: SingleChildScrollView(
+        child: new Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Container(
+                width: double.infinity,
+                height: 70,
+                child: TextField(
+                  controller: _product1,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    counterText: 'Current Value: ${SetSp1}',
+                    label: Text('Product 1'),
+                    hintText: 'Enter number of product 1',
+                  ),
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: TextField(
-              controller: _product2,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                counterText: 'Current Value: ${SetSp2}',
-                label: Text('Product 2'),
-                hintText: 'Enter number of product 2',
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Container(
+                width: double.infinity,
+                height: 70,
+                child: TextField(
+                  controller: _product2,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    counterText: 'Current Value: ${SetSp2}',
+                    label: Text('Product 2'),
+                    hintText: 'Enter number of product 2',
+                  ),
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: TextField(
-              controller: _product3,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                counterText: 'Current Value: ${SetSp3}',
-                label: Text('Product 3'),
-                hintText: 'Enter number of product 3',
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Container(
+                width: double.infinity,
+                height: 70,
+                child: TextField(
+                  controller: _product3,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    counterText: 'Current Value: ${SetSp3}',
+                    label: Text('Product 3'),
+                    hintText: 'Enter number of product 3',
+                  ),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       actions: <Widget>[
         new ElevatedButton(

@@ -32,6 +32,7 @@ class _MyAppState extends State<MyApp> {
     client.autoReconnect = true;
     try {
       await client.connect();
+      inspect(client);
     } on NoConnectionException catch (e) {
       log(e.toString());
     }
@@ -93,20 +94,17 @@ class _MyAppState extends State<MyApp> {
       } else if ((message[0].topic == 'Sp1') && (Run)) {
         setState(() {
           Pos1 = true;
-          if(colorIsCheck)
-          camera = dropdownvalue1;
+          if (colorIsCheck) camera = dropdownvalue1;
         });
       } else if ((message[0].topic == 'Sp2') && (Run)) {
         setState(() {
           Pos2 = true;
-          if(colorIsCheck)
-          camera = dropdownvalue2;
+          if (colorIsCheck) camera = dropdownvalue2;
         });
       } else if ((message[0].topic == 'Sp3') && (Run)) {
         setState(() {
           Pos3 = true;
-          if(colorIsCheck)
-          camera = dropdownvalue3;
+          if (colorIsCheck) camera = dropdownvalue3;
         });
       } else if (message[0].topic == 'Run') {
         setState(() {
@@ -231,8 +229,7 @@ class _MyAppState extends State<MyApp> {
             Auto = true;
             Man = false;
           });
-        }
-        else{
+        } else {
           setState(() {
             Auto = false;
             Man = true;

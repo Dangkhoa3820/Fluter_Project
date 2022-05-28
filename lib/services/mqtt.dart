@@ -117,90 +117,68 @@ Future<List<MqttReceivedMessage<MqttMessage>>?> mqttSubscribe(
       builder17.addString('17');
       client.publishMessage(
           'controlplc', MqttQos.atLeastOnce, builder17.payload!);
-    }
-    else if (topic == 'Color1') {
+    } else if (topic == 'Color1') {
       final builder18 = MqttClientPayloadBuilder();
-      if(dropdownvalue1 == 'Red'){
+      if (dropdownvalue1 == 'Red') {
         builder18.addString('table11');
-      }
-      else if (dropdownvalue1 == 'Yellow'){
+      } else if (dropdownvalue1 == 'Yellow') {
         builder18.addString('table12');
-      }
-      else if (dropdownvalue1 == 'Blue'){
+      } else if (dropdownvalue1 == 'Blue') {
         builder18.addString('table13');
-      }
-      else if (dropdownvalue1 == 'Purple'){
+      } else if (dropdownvalue1 == 'Purple') {
         builder18.addString('table14');
-      }
-      else if (dropdownvalue1 == 'Black'){
+      } else if (dropdownvalue1 == 'Black') {
         builder18.addString('table7');
-      }
-      else if (dropdownvalue1 == 'Pink'){
+      } else if (dropdownvalue1 == 'Pink') {
         builder18.addString('table16');
       }
       client.publishMessage(
           'dulieumain', MqttQos.atLeastOnce, builder18.payload!);
-    }
-    else if (topic == 'Color2') {
+    } else if (topic == 'Color2') {
       final builder19 = MqttClientPayloadBuilder();
-      if(dropdownvalue2 == 'Red'){
+      if (dropdownvalue2 == 'Red') {
         builder19.addString('table21');
-      }
-      else if (dropdownvalue2 == 'Yellow'){
+      } else if (dropdownvalue2 == 'Yellow') {
         builder19.addString('table22');
-      }
-      else if (dropdownvalue2 == 'Blue'){
+      } else if (dropdownvalue2 == 'Blue') {
         builder19.addString('table23');
-      }
-      else if (dropdownvalue2 == 'Purple'){
+      } else if (dropdownvalue2 == 'Purple') {
         builder19.addString('table14');
-      }
-      else if (dropdownvalue2 == 'Black'){
+      } else if (dropdownvalue2 == 'Black') {
         builder19.addString('table27');
-      }
-      else if (dropdownvalue2 == 'Pink'){
+      } else if (dropdownvalue2 == 'Pink') {
         builder19.addString('table26');
       }
       client.publishMessage(
           'dulieumain', MqttQos.atLeastOnce, builder19.payload!);
-    }
-    else if (topic == 'Color3') {
+    } else if (topic == 'Color3') {
       final builder20 = MqttClientPayloadBuilder();
-      if(dropdownvalue3 == 'Red'){
+      if (dropdownvalue3 == 'Red') {
         builder20.addString('table31');
-      }
-      else if (dropdownvalue3 == 'Yellow'){
+      } else if (dropdownvalue3 == 'Yellow') {
         builder20.addString('table32');
-      }
-      else if (dropdownvalue3 == 'Blue'){
+      } else if (dropdownvalue3 == 'Blue') {
         builder20.addString('table33');
-      }
-      else if (dropdownvalue3 == 'Purple'){
+      } else if (dropdownvalue3 == 'Purple') {
         builder20.addString('table34');
-      }
-      else if (dropdownvalue3 == 'Black'){
+      } else if (dropdownvalue3 == 'Black') {
         builder20.addString('table37');
-      }
-      else if (dropdownvalue3 == 'Pink'){
+      } else if (dropdownvalue3 == 'Pink') {
         builder20.addString('table36');
       }
       client.publishMessage(
           'dulieumain', MqttQos.atLeastOnce, builder20.payload!);
-    }
-
-    else if (topic == 'Mode_Color') {
+    } else if (topic == 'Mode_Color') {
       final builder21 = MqttClientPayloadBuilder();
       builder21.addString('Colorcheck');
       client.publishMessage(
           'dulieumain', MqttQos.atLeastOnce, builder21.payload!);
-    }  
-   else if (topic == 'Mode_QR') {
+    } else if (topic == 'Mode_QR') {
       final builder22 = MqttClientPayloadBuilder();
       builder22.addString('QRcheck');
       client.publishMessage(
           'dulieumain', MqttQos.atLeastOnce, builder22.payload!);
-    }
-   else if (topic == 'QuantityProduct') {
+    } else if (topic == 'QuantityProduct') {
       final builder23 = MqttClientPayloadBuilder();
       final builder24 = MqttClientPayloadBuilder();
       final builder25 = MqttClientPayloadBuilder();
@@ -213,7 +191,7 @@ Future<List<MqttReceivedMessage<MqttMessage>>?> mqttSubscribe(
           'SettingSLSP2_App', MqttQos.atLeastOnce, builder24.payload!);
       client.publishMessage(
           'SettingSLSP3_App', MqttQos.atLeastOnce, builder25.payload!);
-    } 
+    }
     client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
       final recMess = c![0].payload as MqttPublishMessage;
       final payload =

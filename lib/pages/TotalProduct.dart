@@ -5,10 +5,15 @@ import 'package:flutter_application/pages/TotalProduct.dart';
 import 'package:flutter_application/services/MongoDB.dart';
 import 'package:flutter_application/services/models/Thaotacnguoidung.dart';
 import 'package:flutter_application/services/models/Tongsanpham.dart';
-import 'package:mongo_dart/mongo_dart.dart';
 
-class TotalProductView extends StatelessWidget {
+class TotalProductView extends StatefulWidget {
+  @override
+  _TotalProductViewState createState() => _TotalProductViewState();
+}
+
+class _TotalProductViewState extends State<TotalProductView> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,8 +24,8 @@ class TotalProductView extends StatelessWidget {
           onPressed: () {
             scaffoldKey.currentState?.openDrawer();
           },
-            icon: Icon(Icons.arrow_back),
-          ),
+          icon: Icon(Icons.arrow_back),
+        ),
         elevation: 0.0,
         backgroundColor: Color(0xFF212332),
         title: Text('History'),
@@ -78,30 +83,43 @@ class TotalProductView extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 8.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(
-                      'Time',
-                      style: TextStyle(
-                          fontSize: 18.0, color: Colors.grey.withOpacity(0.8)),
-                    ),
-                    Text(
-                      'Sp1',
-                      style: TextStyle(
-                          fontSize: 18.0, color: Colors.grey.withOpacity(0.8)),
-                    ),
-                    Text(
-                      'Sp2',
-                      style: TextStyle(
-                          fontSize: 18.0, color: Colors.grey.withOpacity(0.8)),
-                    ),
-                    Text(
-                      'Sp3',
-                      style: TextStyle(
-                          fontSize: 18.0, color: Colors.grey.withOpacity(0.8)),
-                    ),
-                  ],
+                Container(
+                  height: 30,
+                  color: Colors.black,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right:50.0),
+                        child: Text(
+                          '       Time',
+                          style: TextStyle(
+                              fontSize: 18.0, color: Colors.grey.withOpacity(0.8)),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right:40.0),
+                        child: Text(
+                          'Sp1',
+                          style: TextStyle(
+                              fontSize: 18.0, color: Colors.grey.withOpacity(0.8)),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right:35.0),
+                        child: Text(
+                          'Sp2',
+                          style: TextStyle(
+                              fontSize: 18.0, color: Colors.grey.withOpacity(0.8)),
+                        ),
+                      ),
+                      Text(
+                        'Sp3',
+                        style: TextStyle(
+                            fontSize: 18.0, color: Colors.grey.withOpacity(0.8)),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -123,8 +141,8 @@ class TotalProductView extends StatelessWidget {
                         return ListView.builder(
                           itemCount: snapshot.data.length,
                           itemBuilder: (context, index) {
-                            return displayCard(
-                                MongoDbModel_quantity.fromJson(snapshot.data[index]));
+                            return displayCard(MongoDbModel_quantity.fromJson(
+                                snapshot.data[index]));
                           },
                         );
                       } else {
@@ -140,68 +158,91 @@ class TotalProductView extends StatelessWidget {
       ),
     );
   }
-    Widget displayCard(MongoDbModel_quantity data) {
-      return Table(
-        defaultColumnWidth: FixedColumnWidth(90.0),
-        border: TableBorder(
-          bottom: BorderSide(
-              width: 1.0,
-              color: Colors.grey.withOpacity(0.5),
-              style: BorderStyle.solid),
-          verticalInside: BorderSide(
-              width: 1.0,
-              color: Colors.grey.withOpacity(0.5),
-              style: BorderStyle.solid),
-        ),
-        children: [
-          TableRow(children: [
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    '${data.Time}',
-                    style: TextStyle(fontSize: 15.0),
-                  ),
-                )
-              ],
-            ),
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    '${data.Sp1}',
-                    style: TextStyle(fontSize: 15.0),
-                  ),
-                )
-              ],
-            ),
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    '${data.Sp2}',
-                    style: TextStyle(fontSize: 15.0),
-                  ),
-                )
-              ],
-            ),
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    '${data.Sp3}',
-                    style: TextStyle(fontSize: 15.0),
-                  ),
-                )
-              ],
-            ),
-          ]),
-        ],
-      );
-    }
-  }
 
+  Widget displayCard(MongoDbModel_quantity data) {
+    return Table(
+      columnWidths: {
+        0: FixedColumnWidth(70),
+        1: FixedColumnWidth(30),
+        2: FixedColumnWidth(30),
+        3: FixedColumnWidth(30),
+        4: FixedColumnWidth(20),
+      },
+      border: TableBorder(
+        bottom: BorderSide(
+            width: 1.0,
+            color: Colors.grey.withOpacity(0.5),
+            style: BorderStyle.solid),
+        verticalInside: BorderSide(
+            width: 1.0,
+            color: Colors.grey.withOpacity(0.5),
+            style: BorderStyle.solid),
+      ),
+      children: [
+        TableRow(children: [
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  '${data.Time}',
+                  style: TextStyle(fontSize: 15.0),
+                ),
+              )
+            ],
+          ),
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  '${data.Sp1}',
+                  style: TextStyle(fontSize: 15.0),
+                ),
+              )
+            ],
+          ),
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  '${data.Sp2}',
+                  style: TextStyle(fontSize: 15.0),
+                ),
+              )
+            ],
+          ),
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  '${data.Sp3}',
+                  style: TextStyle(fontSize: 15.0),
+                ),
+              )
+            ],
+          ),
+          Column(
+            children: [
+              Row(
+                children: [
+                  //Text('Delete'),
+                  IconButton(
+                    icon: Icon(Icons.delete_forever),
+                    color: Colors.red,
+                    onPressed: () async {
+                      await mongoDB.delete_Quantity(data);
+                      setState(() {});
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ]),
+      ],
+    );
+  }
+}

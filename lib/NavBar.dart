@@ -16,7 +16,7 @@ class NavBar extends StatelessWidget {
       padding: EdgeInsets.zero,
       children: [
         UserAccountsDrawerHeader(
-          accountName: Text('IoT Solution'),
+          accountName: Text('Admin'),
           accountEmail: Text('@hcmut.edu.vn'),
           currentAccountPicture: CircleAvatar(
             child: ClipOval(

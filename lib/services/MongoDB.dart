@@ -81,4 +81,16 @@ class mongoDB {
       return e.toString();
     }
   }
+
+  static delete_ControlView(MongoDbModel_thaotac user) async {
+    await userCollection.remove(where.id(user.id));
+  }
+
+   static delete_Quantity(MongoDbModel_quantity user) async {
+    await quantity.remove(where.id(user.id));
+  }
+
+  static delete_Alarm(MongoDbModel_alarm user) async {
+    await alarm.remove(where.id(user.id));
+  }
 }

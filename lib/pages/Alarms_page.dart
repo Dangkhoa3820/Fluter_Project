@@ -4,10 +4,15 @@ import 'package:flutter_application/pages/TotalProduct.dart';
 import 'package:flutter_application/services/MongoDB.dart';
 import 'package:flutter_application/services/models/Alarm.dart';
 import 'package:flutter_application/services/models/Thaotacnguoidung.dart';
-import 'package:mongo_dart/mongo_dart.dart';
 
-class Alarms extends StatelessWidget {
+class Alarms extends StatefulWidget {
+  @override
+  _AlarmsState createState() => _AlarmsState();
+}
+
+class _AlarmsState extends State<Alarms> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,30 +38,43 @@ class Alarms extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 8.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(
-                      'ID',
-                      style: TextStyle(
-                          fontSize: 18.0, color: Colors.grey.withOpacity(0.8)),
-                    ),
-                    Text(
-                      'Time',
-                      style: TextStyle(
-                          fontSize: 18.0, color: Colors.grey.withOpacity(0.8)),
-                    ),
-                    Text(
-                      'Name',
-                      style: TextStyle(
-                          fontSize: 18.0, color: Colors.grey.withOpacity(0.8)),
-                    ),
-                    Text(
-                      'Detail',
-                      style: TextStyle(
-                          fontSize: 18.0, color: Colors.grey.withOpacity(0.8)),
-                    ),
-                  ],
+                Container(
+                  height: 30,
+                  color: Colors.black,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right:55.0),
+                        child: Text(
+                          '    ID',
+                          style: TextStyle(
+                              fontSize: 18.0, color: Colors.grey.withOpacity(0.8)),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right:35.0),
+                        child: Text(
+                          'Time',
+                          style: TextStyle(
+                              fontSize: 18.0, color: Colors.grey.withOpacity(0.8)),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right:25.0),
+                        child: Text(
+                          'Name',
+                          style: TextStyle(
+                              fontSize: 18.0, color: Colors.grey.withOpacity(0.8)),
+                        ),
+                      ),
+                      Text(
+                        'Detail',
+                        style: TextStyle(
+                            fontSize: 18.0, color: Colors.grey.withOpacity(0.8)),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -95,9 +113,16 @@ class Alarms extends StatelessWidget {
       ),
     );
   }
+
     Widget displayCard(MongoDbModel_alarm data) {
       return Table(
-        defaultColumnWidth: FixedColumnWidth(90.0),
+        columnWidths: {
+          0: FixedColumnWidth(55),
+          1: FixedColumnWidth(85),
+          2: FixedColumnWidth(50),
+          3: FixedColumnWidth(80),
+          4: FixedColumnWidth(40),
+        },
         border: TableBorder(
           bottom: BorderSide(
               width: 1.0,
@@ -154,9 +179,27 @@ class Alarms extends StatelessWidget {
                 )
               ],
             ),
+          Column(
+              children: [
+              Row(
+                children: [
+                  //Text('Delete'),
+                  IconButton(
+                    icon: Icon(Icons.delete_forever),
+                    color: Colors.red,
+                    onPressed: () async {
+                      await mongoDB.delete_Alarm(data);
+                      setState(() {
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ],
+            ),
           ]),
         ],
       );
     }
-  }
+}
 
