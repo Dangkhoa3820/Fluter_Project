@@ -7,8 +7,10 @@ Future<List<MqttReceivedMessage<MqttMessage>>?> mqttSubscribe(
     {required String topic}) async {
   final client = MqttServerClient('broker.hivemq.com', 'MQTTBroker');
   client.port = 1883;
-  client.connect();
+  // client.onAutoReconnect = () => true;
+  // client.autoReconnect = true;
   client.keepAlivePeriod = 60;
+  client.connect();
 
   try {
     await client.connect();
@@ -212,12 +214,12 @@ Future<List<MqttReceivedMessage<MqttMessage>>?> mqttSubscribe(
       client.publishMessage(
           'SettingSLSP3_App', MqttQos.atLeastOnce, builder25.payload!);
     } 
-    // client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
-    //   final recMess = c![0].payload as MqttPublishMessage;
-    //   final payload =
-    //       MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
-    //   log(payload + ' --> topic: ${c[0].topic}');
-    // });
+    client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
+      final recMess = c![0].payload as MqttPublishMessage;
+      final payload =
+          MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
+      log(payload + ' --> topic: ${c[0].topic}');
+    });
   } else {
     return null;
   }

@@ -92,9 +92,8 @@ class _LoginPageState extends State<LoginPage> {
                     style: TextStyle(fontSize: 15),
                   ),
                   onPressed: () {
-                    // Navigator.push(context,
-                    //     MaterialPageRoute(builder: (context) => MyHomePage()));
-                    
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => MyHomePage()));                  
                   },
                 ),
               ),

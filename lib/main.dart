@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/pages/Login_page.dart';
 import 'package:flutter_application/services/MongoDB.dart';
+import 'package:flutter_application/services/mqtt.dart';
 import 'package:flutter_application/services/thaotac.dart';
 import 'package:flutter_application/services/variables.dart';
 import './pages/Home_page.dart';
@@ -9,8 +10,8 @@ import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await mongoDB.connect();
+  WidgetsFlutterBinding.ensureInitialized();
+  await mongoDB.connect();
   runApp(MyApp());
 }
 
@@ -45,6 +46,7 @@ class _MyAppState extends State<MyApp> {
 
     client.subscribe('Run', MqttQos.atMostOnce);
     client.subscribe('dulieumain', MqttQos.atMostOnce);
+    client.subscribe('auto_man', MqttQos.atMostOnce);
 
     client.subscribe('color_Sp1', MqttQos.atMostOnce);
     client.subscribe('color_Sp2', MqttQos.atMostOnce);
@@ -91,16 +93,19 @@ class _MyAppState extends State<MyApp> {
       } else if ((message[0].topic == 'Sp1') && (Run)) {
         setState(() {
           Pos1 = true;
+          if(colorIsCheck)
           camera = dropdownvalue1;
         });
       } else if ((message[0].topic == 'Sp2') && (Run)) {
         setState(() {
           Pos2 = true;
+          if(colorIsCheck)
           camera = dropdownvalue2;
         });
       } else if ((message[0].topic == 'Sp3') && (Run)) {
         setState(() {
           Pos3 = true;
+          if(colorIsCheck)
           camera = dropdownvalue3;
         });
       } else if (message[0].topic == 'Run') {
@@ -209,7 +214,7 @@ class _MyAppState extends State<MyApp> {
       } else if (message[0].topic == 'Alarm_khongnhandienmau') {
         setState(() {
           alarm = true;
-          name = 'Color';
+          name = 'Product';
           detail = 'Undefine';
         });
         AlarmFunction();
@@ -220,6 +225,19 @@ class _MyAppState extends State<MyApp> {
           detail = 'Please Press Button Reset';
         });
         AlarmFunction();
+      } else if (message[0].topic == 'auto_man') {
+        if (payload == 'true') {
+          setState(() {
+            Auto = true;
+            Man = false;
+          });
+        }
+        else{
+          setState(() {
+            Auto = false;
+            Man = true;
+          });
+        }
       }
     });
   }

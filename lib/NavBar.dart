@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/pages/Alarms_page.dart';
 import 'package:flutter_application/pages/History_page.dart';
 import 'package:flutter_application/pages/Home_page.dart';
+import 'package:flutter_application/pages/Login_page.dart';
 import 'package:flutter_application/pages/Settings_page.dart';
 import 'package:flutter_application/services/variables.dart';
 
@@ -51,16 +52,11 @@ class NavBar extends StatelessWidget {
           title: Text('Alarms'),
           onTap: () => selectedItem(context, 2),
         ),
-        ListTile(
-          leading: Icon(Icons.settings),
-          title: Text('Settings'),
-          onTap: () => selectedItem(context, 3),
-        ),
         Divider(),
         ListTile(
           leading: Icon(Icons.exit_to_app),
           title: Text('Exit'),
-          onTap: () => null,
+          onTap: () =>  selectedItem(context, 3),
         ),
       ],
     ));
@@ -85,8 +81,8 @@ class NavBar extends StatelessWidget {
         break;
       case 3:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => Settings(),
-        ));
+          builder: (context) => LoginPage(),
+        ));       
         break;
     }
   }
