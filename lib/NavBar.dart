@@ -8,7 +8,12 @@ import 'package:flutter_application/pages/Login_page.dart';
 import 'package:flutter_application/pages/Settings_page.dart';
 import 'package:flutter_application/services/variables.dart';
 
-class NavBar extends StatelessWidget {
+class NavBar extends StatefulWidget {
+  @override
+  State<NavBar> createState() => _NavBarState();
+}
+
+class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -56,7 +61,7 @@ class NavBar extends StatelessWidget {
         ListTile(
           leading: Icon(Icons.exit_to_app),
           title: Text('Exit'),
-          onTap: () =>  selectedItem(context, 3),
+          onTap: () => selectedItem(context, 3),
         ),
       ],
     ));
@@ -77,12 +82,15 @@ class NavBar extends StatelessWidget {
       case 2:
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => Alarms(),
-        ));       
+        ));
         break;
       case 3:
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => LoginPage(),
-        ));       
+        ));
+        setState(() {
+          Login = false;
+        });
         break;
     }
   }

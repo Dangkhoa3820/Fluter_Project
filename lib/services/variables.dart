@@ -21,3 +21,4 @@ bool alarm = false;
 String name = 'null';
 String detail = 'null';
 var totalAlarm = '0';
+bool Login = false;

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application/pages/Home_page.dart';
 import 'package:flutter_application/services/MongoDB.dart';
@@ -11,8 +13,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  get mongoDB => null;
-
+  TextEditingController _username = TextEditingController();
+  TextEditingController _password = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,13 +27,13 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ClipOval(
-                child: Image.asset(
-                  'assets/images/dca.jpg',
-                  width: 120,
-                  height: 120,
-                  fit: BoxFit.cover,
+                  child: Image.asset(
+                    'assets/images/dca.jpg',
+                    width: 120,
+                    height: 120,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
                 //Hello again!
                 SizedBox(height: 20),
                 Text(
@@ -54,6 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 40.0),
                   child: TextField(
+                    controller: _username,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
@@ -74,6 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 40.0),
                   child: TextField(
+                    controller: _password,
                     obscureText: true,
                     style: TextStyle(
                       color: Colors.white,
@@ -101,9 +105,39 @@ class _LoginPageState extends State<LoginPage> {
                       'SIGN IN',
                       style: TextStyle(fontSize: 15),
                     ),
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => MyHomePage()));                  
+                    onPressed: () async{
+                      await mongoDB.findData(_username.text,_password.text);
+                      setState(() {
+                        Login = Login;
+                      });
+                      log('Login: ${Login}');
+                      if (Login == true) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MyHomePage()));
+                      }
+                      else{
+                        showDialog<void>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text(
+                             'Error!',
+                             style: TextStyle(color: Colors.red),
+                          ),
+                        content: Text('Wrong username or password!'),
+                        actions: [
+                          ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('Ok'),
+                        )
+                      ],
+                    );
+                  });
+                      }
                     },
                   ),
                 ),

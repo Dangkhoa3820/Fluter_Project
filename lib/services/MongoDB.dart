@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter_application/services/models/Alarm.dart';
 import 'package:flutter_application/services/models/Thaotacnguoidung.dart';
 import 'package:flutter_application/services/models/Tongsanpham.dart';
+import 'package:flutter_application/services/variables.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 class mongoDB {
@@ -33,11 +34,14 @@ class mongoDB {
     return Data_alarm;
   }
 
-  static Future<String> findData() async {
-    var usrData =
-        await account.findOne(where.match('username', 'admin')).tolist();
-    print(usrData);
-    return usrData;
+  static Future<String> findData(String usr_data, String pass_data) async {
+    var Data = await account.findOne(where.match('username', '${usr_data}').and(where.match('password','${pass_data}')));
+    if (Data != null) {
+      Login = true;
+    } else {
+      Login = false;
+    }
+    return "Login check";
   }
 
   static Future<String> insert_thaotac(MongoDbModel_thaotac data) async {
@@ -86,7 +90,7 @@ class mongoDB {
     await userCollection.remove(where.id(user.id));
   }
 
-   static delete_Quantity(MongoDbModel_quantity user) async {
+  static delete_Quantity(MongoDbModel_quantity user) async {
     await quantity.remove(where.id(user.id));
   }
 
