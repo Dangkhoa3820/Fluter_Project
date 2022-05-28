@@ -255,7 +255,7 @@ class _MyAppState extends State<MyApp> {
         scaffoldBackgroundColor: Color(0xFF212332),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(),
+      home: LoginPage(),
     );
   }
 }

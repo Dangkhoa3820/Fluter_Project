@@ -70,27 +70,46 @@ class _NavBarState extends State<NavBar> {
   void selectedItem(BuildContext context, int index) {
     switch (index) {
       case 0:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => MyHomePage(),
-        ));
+        if (Login == true) {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => MyHomePage(),
+          ));
+        } else {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => LoginPage(),
+          ));
+        }
         break;
       case 1:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => History(),
-        ));
+        if (Login == true) {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => History(),
+          ));
+        } else {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => LoginPage(),
+          ));
+        }
         break;
       case 2:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => Alarms(),
-        ));
+        if (Login == true) {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => Alarms(),
+          ));
+        }
+        else{
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => LoginPage(),
+          ));
+        }
         break;
       case 3:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => LoginPage(),
-        ));
         setState(() {
           Login = false;
         });
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => LoginPage(),
+        ));
         break;
     }
   }

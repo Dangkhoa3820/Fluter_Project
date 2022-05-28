@@ -111,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                         Login = Login;
                       });
                       log('Login: ${Login}');
-                      if (Login == true) {
+                      if ((Login == true)&&(_username.text != '')&&((_password.text != ''))) {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
