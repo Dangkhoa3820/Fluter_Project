@@ -733,7 +733,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   Auto = !value;
                                   Man = value;
                                   if (Man == true) {
-                                    mqttSubscribe(topic: 'man');
+                                   mqttSubscribe(topic: 'man');
                                   }
                                 });
                               },

@@ -5,7 +5,7 @@ import 'package:mqtt_client/mqtt_server_client.dart';
 
 Future<List<MqttReceivedMessage<MqttMessage>>?> mqttSubscribe(
     {required String topic}) async {
-  final client = MqttServerClient('broker.hivemq.com', 'MQTTBroker');
+  final client = MqttServerClient('broker.hivemq.com', 'BrokerServer');
   client.port = 1883;
   // client.onAutoReconnect = () => true;
   // client.autoReconnect = true;

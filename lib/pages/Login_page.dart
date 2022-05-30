@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/pages/Home_page.dart';
 import 'package:flutter_application/services/MongoDB.dart';
+import 'package:flutter_application/services/mqtt.dart';
 import 'package:flutter_application/services/variables.dart';
 
 class LoginPage extends StatefulWidget {
@@ -105,42 +106,59 @@ class _LoginPageState extends State<LoginPage> {
                       'SIGN IN',
                       style: TextStyle(fontSize: 15),
                     ),
-                    onPressed: () async{
-                      await mongoDB.findData(_username.text,_password.text);
+                    onPressed: () async {
+                      await mongoDB.findData(_username.text, _password.text);
                       setState(() {
                         Login = Login;
                       });
                       log('Login: ${Login}');
-                      if ((Login == true)&&(_username.text != '')&&((_password.text != ''))) {
+                      if ((Login == true) &&
+                          (_username.text != '') &&
+                          ((_password.text != ''))) {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => MyHomePage()));
-                      }
-                      else{
+                      } else {
                         showDialog<void>(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text(
-                             'Error!',
-                             style: TextStyle(color: Colors.red),
-                          ),
-                        content: Text('Wrong username or password!'),
-                        actions: [
-                          ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text('Ok'),
-                        )
-                      ],
-                    );
-                  });
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text(
+                                  'Error!',
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                                content: Text('Wrong username or password!'),
+                                actions: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text('Ok'),
+                                  )
+                                ],
+                              );
+                            });
                       }
                     },
                   ),
                 ),
+                Container(
+                  child: FutureBuilder(
+                      future: mqttSubscribe(topic: 'Run'),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else {
+                          return Center(
+                            child: Text(''),
+                          );
+                        }
+                      }),
+                )
               ],
             ),
           ),

@@ -24,14 +24,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   // MQTT Broker
   mqttConnect() async {
-    final client = MqttServerClient('broker.hivemq.com', 'MQTTBroker');
+    final client = MqttServerClient('broker.hivemq.com', 'BrokerMQTT');
     client.port = 1883;
     client.keepAlivePeriod = 60;
     client.connect();
     client.onAutoReconnect = () => true;
     client.autoReconnect = true;
     try {
-      await client.connect();
+      await client.connect();  
       inspect(client);
     } on NoConnectionException catch (e) {
       log(e.toString());
@@ -64,12 +64,14 @@ class _MyAppState extends State<MyApp> {
     client.subscribe('Alarm_khongnhandienmau', MqttQos.atMostOnce);
     client.subscribe('Alarm_NotReady', MqttQos.atMostOnce);
 
+
     client.updates!.listen((dynamic message) {
       final MqttPublishMessage recMess = message[0].payload;
       var payload =
           MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
       log(payload + ' --> topic: ${message[0].topic}');
 
+  // Pulish Data
       if (message[0].topic == 'SoluongSP1') {
         setState(() {
           SoluongSp1 = payload;
