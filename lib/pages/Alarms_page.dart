@@ -119,8 +119,8 @@ class _AlarmsState extends State<Alarms> {
         columnWidths: {
           0: FixedColumnWidth(55),
           1: FixedColumnWidth(85),
-          2: FixedColumnWidth(50),
-          3: FixedColumnWidth(80),
+          2: FixedColumnWidth(75),
+          3: FixedColumnWidth(60),
           4: FixedColumnWidth(40),
         },
         border: TableBorder(

@@ -46,6 +46,41 @@ Future<void> thaotacFunction(BuildContext context, int index) async {
           MongoDbModel_thaotac(id: _id, Time: formattedDate, thaotac: mes_data);
       var result = await mongoDB.insert_thaotac(data);
       break;
+      case 5:
+      var _id = M.ObjectId();
+      String mes_data = "Color Check From App";
+      final data =
+          MongoDbModel_thaotac(id: _id, Time: formattedDate, thaotac: mes_data);
+      var result = await mongoDB.insert_thaotac(data);
+      break;
+      case 6:
+      var _id = M.ObjectId();
+      String mes_data = "QR Check From App";
+      final data =
+          MongoDbModel_thaotac(id: _id, Time: formattedDate, thaotac: mes_data);
+      var result = await mongoDB.insert_thaotac(data);
+      break;
+      case 7:
+      var _id = M.ObjectId();
+      String mes_data = "Auto On From App";
+      final data =
+          MongoDbModel_thaotac(id: _id, Time: formattedDate, thaotac: mes_data);
+      var result = await mongoDB.insert_thaotac(data);
+      break;
+      case 8:
+      var _id = M.ObjectId();
+      String mes_data = "Man On From App";
+      final data =
+          MongoDbModel_thaotac(id: _id, Time: formattedDate, thaotac: mes_data);
+      var result = await mongoDB.insert_thaotac(data);
+      break;
+      case 9:
+      var _id = M.ObjectId();
+      String mes_data = "Setting Product From App";
+      final data =
+          MongoDbModel_thaotac(id: _id, Time: formattedDate, thaotac: mes_data);
+      var result = await mongoDB.insert_thaotac(data);
+      break;
   }
 }
 

@@ -22,3 +22,29 @@ String name = 'null';
 String detail = 'null';
 var totalAlarm = '0';
 bool Login = false;
+
+bool Start = false;
+bool Stop = false;
+bool Reset = false;
+bool Emer_on = false;
+bool Emer_off = false;
+bool Man_mode = false;
+bool Auto_mode = false;
+
+bool Motor_on = false;
+bool Motor_off = false;
+bool Go_out = false;
+bool Go_back = false;
+bool Push_out = false;
+bool Push_back = false;
+bool Lift_up = false;
+bool Lift_down = false;
+bool Hold_on = false;
+bool Hold_off = false;
+
+bool Color_1 = false;
+bool Color_2 = false;
+bool Color_3 = false;
+bool Mode_color = false;
+bool Mode_qr = false;
+bool Quantity_product = false;

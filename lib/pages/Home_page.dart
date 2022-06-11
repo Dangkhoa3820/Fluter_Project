@@ -1,8 +1,10 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/main.dart';
 import 'package:flutter_application/pages/Alarms_page.dart';
 import 'package:flutter_application/services/mqtt.dart';
 import 'package:flutter_application/services/thaotac.dart';
+import 'package:mqtt_client/mqtt_client.dart';
 import '../NavBar.dart';
 import '../services/variables.dart';
 
@@ -38,6 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
       return Colors.blue;
     }
+
     return Scaffold(
       drawer: NavBar(),
       appBar: AppBar(
@@ -46,16 +49,16 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Color(0xFF212332),
         actions: [
           IconButton(
-            icon: Icon(Icons.notifications_none, 
-                  color:(alarm)?Colors.orange:Colors.grey),
+            icon: Icon(Icons.notifications_none,
+                color: (alarm) ? Colors.orange : Colors.grey),
             onPressed: () {
               setState(() {
                 alarm = false;
               });
               Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Alarms()),
-                );
+                context,
+                MaterialPageRoute(builder: (context) => Alarms()),
+              );
             },
           ),
         ],
@@ -289,7 +292,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                             dropdownvalue1 = NewValue!;
                                           });
                                           print('color1: ${dropdownvalue1}');
-                                          mqttSubscribe(topic: 'Color1');
+                                          //mqttSubscribe(topic: 'Color1');
+                                          setState(() {
+                                            Color_1 = true;
+                                          });
                                         }
                                       });
                                     },
@@ -356,7 +362,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                           setState(() {
                                             dropdownvalue2 = NewValue!;
                                           });
-                                          mqttSubscribe(topic: 'Color2');
+                                          //mqttSubscribe(topic: 'Color2');
+                                          setState(() {
+                                            Color_2 = true;
+                                          });
                                         }
                                       });
                                     },
@@ -422,7 +431,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                         setState(() {
                                           dropdownvalue3 = NewValue!;
                                         });
-                                        mqttSubscribe(topic: 'Color3');
+                                        //mqttSubscribe(topic: 'Color3');
+                                        setState(() {
+                                          Color_3 = true;
+                                        });
                                       }
                                     },
                                   ),
@@ -487,7 +499,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                   Auto = value;
                                   Man = !value;
                                   if (Auto == true) {
-                                    mqttSubscribe(topic: 'auto');
+                                    //mqttSubscribe(topic: 'auto');
+                                    thaotacFunction(context, 7);
+                                    setState(() {
+                                      Auto_mode = true;
+                                    });
                                   }
                                 });
                               },
@@ -507,9 +523,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   onPressed: () {
-                                    mqttSubscribe(topic: 'start');
+                                    //mqttSubscribe(topic: 'start');
                                     thaotacFunction(context, 0);
-                                    print("start");
+                                    setState(() {
+                                      Start = true;
+                                    });
                                   },
                                   style: ElevatedButton.styleFrom(
                                     shape: CircleBorder(
@@ -530,8 +548,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   onPressed: () {
-                                    mqttSubscribe(topic: 'stop');
+                                    //mqttSubscribe(topic: 'stop');
                                     thaotacFunction(context, 1);
+                                    setState(() {
+                                      Stop = true;
+                                    });
                                   },
                                   style: ElevatedButton.styleFrom(
                                     shape: CircleBorder(
@@ -559,8 +580,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   onPressed: () {
-                                    mqttSubscribe(topic: 'reset');
+                                    //mqttSubscribe(topic: 'reset');
                                     thaotacFunction(context, 2);
+                                    setState(() {
+                                      Reset = true;
+                                    });
                                   },
                                   style: ElevatedButton.styleFrom(
                                     shape: CircleBorder(
@@ -601,11 +625,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                         pressAttention = !pressAttention;
                                       });
                                       if (pressAttention) {
-                                        mqttSubscribe(topic: 'emer_on');
+                                        //mqttSubscribe(topic: 'emer_on');
                                         thaotacFunction(context, 3);
+                                        setState(() {
+                                          Emer_on = true;
+                                        });
                                       } else {
-                                        mqttSubscribe(topic: 'emer_off');
                                         thaotacFunction(context, 4);
+                                        setState(() {
+                                          Emer_off = true;
+                                        });
                                       }
                                     }),
                               ]),
@@ -620,16 +649,19 @@ class _MyHomePageState extends State<MyHomePage> {
                               Text('Color:'),
                               Checkbox(
                                   checkColor: Colors.white,
-                                  fillColor: MaterialStateProperty
-                                      .resolveWith(getColor),
+                                  fillColor: MaterialStateProperty.resolveWith(
+                                      getColor),
                                   value: colorIsCheck,
                                   onChanged: (value) {
                                     setState(() {
                                       colorIsCheck = value!;
                                       qrIsCheck = !value;
                                     });
-                                    mqttSubscribe(
-                                        topic: 'Mode_Color');
+                                    thaotacFunction(context, 5);
+                                    //mqttSubscribe(topic: 'Mode_Color');
+                                    setState(() {
+                                      Mode_color = true;
+                                    });
                                   }),
                             ],
                           ),
@@ -644,15 +676,19 @@ class _MyHomePageState extends State<MyHomePage> {
                               Text('QR:    '),
                               Checkbox(
                                   checkColor: Colors.white,
-                                  fillColor: MaterialStateProperty
-                                      .resolveWith(getColor),
+                                  fillColor: MaterialStateProperty.resolveWith(
+                                      getColor),
                                   value: qrIsCheck,
                                   onChanged: (bool? value) {
                                     setState(() {
                                       qrIsCheck = value!;
                                       colorIsCheck = !value;
                                     });
-                                    mqttSubscribe(topic: 'Mode_QR');
+                                    //mqttSubscribe(topic: 'Mode_QR');
+                                    thaotacFunction(context, 6);
+                                    setState(() {
+                                      Mode_qr = true;
+                                    });
                                   }),
                             ],
                           ),
@@ -733,7 +769,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                   Auto = !value;
                                   Man = value;
                                   if (Man == true) {
-                                   mqttSubscribe(topic: 'man');
+                                    //mqttSubscribe(topic: 'man');
+                                    thaotacFunction(context, 8);
+                                    setState(() {
+                                      Man_mode = true;
+                                    });
                                   }
                                 });
                               },
@@ -756,7 +796,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onPressed: () {
-                                      mqttSubscribe(topic: 'motor_on');
+                                      //mqttSubscribe(topic: 'motor_on');
+                                      setState(() {
+                                        Motor_on = true;
+                                      });
                                     },
                                     style: ElevatedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
@@ -786,7 +829,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onPressed: () {
-                                      mqttSubscribe(topic: 'motor_off');
+                                      //mqttSubscribe(topic: 'motor_off');
+                                      setState(() {
+                                        Motor_off = true;
+                                      });
                                     },
                                     style: ElevatedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
@@ -823,7 +869,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onPressed: () {
-                                      mqttSubscribe(topic: 'push_out');
+                                      //mqttSubscribe(topic: 'push_out');
+                                      setState(() {
+                                        Push_out = true;
+                                      });
                                     },
                                     style: ElevatedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
@@ -868,7 +917,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                           Color.fromARGB(255, 0, 132, 240),
                                     ),
                                     onPressed: () {
-                                      mqttSubscribe(topic: 'push_back');
+                                      //mqttSubscribe(topic: 'push_back');
+                                      setState(() {
+                                        Push_back = true;
+                                      });
                                     },
                                   ),
                                 ),
@@ -888,7 +940,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onPressed: () {
-                                      mqttSubscribe(topic: 'lift_up');
+                                      //mqttSubscribe(topic: 'lift_up');
+                                      setState(() {
+                                        Lift_up = true;
+                                      });
                                     },
                                     style: ElevatedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
@@ -935,7 +990,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                           Color.fromARGB(255, 0, 132, 240),
                                     ),
                                     onPressed: () {
-                                      mqttSubscribe(topic: 'lift_down');
+                                      //mqttSubscribe(topic: 'lift_down');
+                                      setState(() {
+                                        Lift_down = true;
+                                      });
                                     },
                                   ),
                                 ),
@@ -955,7 +1013,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onPressed: () {
-                                      mqttSubscribe(topic: 'go_out');
+                                      //mqttSubscribe(topic: 'go_out');
+                                      setState(() {
+                                        Go_out = true;
+                                      });
                                     },
                                     style: ElevatedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
@@ -1002,7 +1063,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                           Color.fromARGB(255, 0, 132, 240),
                                     ),
                                     onPressed: () {
-                                      mqttSubscribe(topic: 'go_back');
+                                      //mqttSubscribe(topic: 'go_back');
+                                      setState(() {
+                                        Go_back = true;
+                                      });
                                     },
                                   ),
                                 ),
@@ -1022,7 +1086,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onPressed: () {
-                                      mqttSubscribe(topic: 'hold_on');
+                                      //mqttSubscribe(topic: 'hold_on');
+                                      setState(() {
+                                        Hold_on = true;
+                                      });
                                     },
                                     style: ElevatedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
@@ -1069,7 +1136,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                           Color.fromARGB(255, 0, 132, 240),
                                     ),
                                     onPressed: () {
-                                      mqttSubscribe(topic: 'hold_off');
+                                      //mqttSubscribe(topic: 'hold_off');
+                                      setState(() {
+                                        Hold_off = true;
+                                      });
                                     },
                                   ),
                                 ),
@@ -1266,7 +1336,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 SetSp2 = _product2.text;
                 SetSp3 = _product3.text;
               });
-              mqttSubscribe(topic: 'QuantityProduct');
+              //mqttSubscribe(topic: 'QuantityProduct');
+              thaotacFunction(context, 9);
+              setState(() {
+                Quantity_product = true;
+              });
               Navigator.of(context).pop();
             } else {
               showDialog<void>(

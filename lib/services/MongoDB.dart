@@ -35,7 +35,7 @@ class mongoDB {
   }
 
   static Future<String> findData(String usr_data, String pass_data) async {
-    var Data = await account.findOne(where.match('username', '${usr_data}').and(where.match('password','${pass_data}')));
+    var Data = await account.findOne(where.eq('username', '${usr_data}').and(where.eq('password','${pass_data}')));
     if (Data != null) {
       Login = true;
     } else {
